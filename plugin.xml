@@ -1,0 +1,51 @@
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+xmlns:android="http://schemas.android.com/apk/res/android"
+           id="cordova-plugin-firebase-remoteconfig"
+      version="0.9.0">
+
+    <name>cordova-plugin-firebase-remoteconfig</name>
+    <description>Cordova plugin for Firebase Remote Config</description>
+    <license>MIT</license>
+    <keywords>cordova</keywords>
+    <repo>https://github.com/chemerisuk/cordova-plugin-firebase-remoteconfig</repo>
+    <issue>https://github.com/chemerisuk/cordova-plugin-firebase-remoteconfig/issues</issue>
+
+    <js-module src="www/FirebaseRemoteConfig.js" name="FirebaseRemoteConfig">
+        <merges target="cordova.plugins.firebase.remoteconfig" />
+    </js-module>
+
+    <engines>
+        <engine name="cordova" version=">=3.5.0"/>
+    </engines>
+
+    <dependency id="cordova-plugin-firebase-hooks"/>
+
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="FirebaseRemoteConfig">
+                <param name="ios-package" value="FirebaseRemoteConfigPlugin" />
+                <param name="onload" value="false" />
+            </feature>
+        </config-file>
+
+        <header-file src="src/ios/FirebaseRemoteConfigPlugin.h" />
+        <source-file src="src/ios/FirebaseRemoteConfigPlugin.m" />
+
+        <pod id="Firebase/RemoteConfig" />
+    </platform>
+
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="FirebaseRemoteConfig">
+                <param name="android-package" value="by.chemerisuk.cordova.firebase.FirebaseRemoteConfigPlugin" />
+                <param name="onload" value="false" />
+            </feature>
+        </config-file>
+
+        <framework src="com.google.firebase:firebase-config:+" />
+
+        <source-file src="src/android/FirebaseRemoteConfigPlugin.java"
+            target-dir="src/by/chemerisuk/cordova/firebase/" />
+    </platform>
+
+</plugin>
