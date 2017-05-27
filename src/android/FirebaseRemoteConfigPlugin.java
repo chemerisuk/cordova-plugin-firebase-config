@@ -35,10 +35,8 @@ public class FirebaseRemoteConfigPlugin extends CordovaPlugin {
             getBoolean(args.getString(0), args.getString(1), callbackContext);
         } else if ("getByteArray".equals(action)) {
             getByteArray(args.getString(0), args.getString(1), callbackContext);
-        } else if ("getDouble".equals(action)) {
-            getDouble(args.getString(0), args.getString(1), callbackContext);
-        } else if ("getLong".equals(action)) {
-            getLong(args.getString(0), args.getString(1), callbackContext);
+        } else if ("getNumber".equals(action)) {
+            getNumber(args.getString(0), args.getString(1), callbackContext);
         } else if ("getString".equals(action)) {
             getString(args.getString(0), args.getString(1), callbackContext);
         } else {
@@ -77,9 +75,9 @@ public class FirebaseRemoteConfigPlugin extends CordovaPlugin {
 
     private void getBoolean(String key, String namespace, CallbackContext callbackContext) {
         if (namespace.isEmpty()) {
-            callbackContext.success(firebaseRemoteConfig.getBoolean(key));
+            callbackContext.success(firebaseRemoteConfig.getBoolean(key) ? 1 : 0);
         } else {
-            callbackContext.success(firebaseRemoteConfig.getBoolean(key, namespace));
+            callbackContext.success(firebaseRemoteConfig.getBoolean(key, namespace) ? 1 : 0);
         }
     }
 
@@ -91,19 +89,11 @@ public class FirebaseRemoteConfigPlugin extends CordovaPlugin {
         }
     }
 
-    private void getDouble(String key, String namespace, CallbackContext callbackContext) {
+    private void getNumber(String key, String namespace, CallbackContext callbackContext) {
         if (namespace.isEmpty()) {
-            callbackContext.success(firebaseRemoteConfig.getDouble(key));
+            callbackContext.success((int)firebaseRemoteConfig.getLong(key));
         } else {
-            callbackContext.success(firebaseRemoteConfig.getDouble(key, namespace));
-        }
-    }
-
-    private void getLong(String key, String namespace, CallbackContext callbackContext) {
-        if (namespace.isEmpty()) {
-            callbackContext.success(firebaseRemoteConfig.getLong(key));
-        } else {
-            callbackContext.success(firebaseRemoteConfig.getLong(key, namespace));
+            callbackContext.success((int)firebaseRemoteConfig.getLong(key, namespace));
         }
     }
 
