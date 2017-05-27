@@ -12,8 +12,8 @@ function getParameter(type, key, namespace, success, error) {
 }
 
 module.exports = {
-    fetch: function(cacheExpiration, success, error) {
-        exec(success, error, PLUGIN_NAME, "fetch", [cacheExpiration]);
+    update: function(ttlSeconds, success, error) {
+        exec(success, error, PLUGIN_NAME, "update", [ttlSeconds]);
     },
     getBoolean: function(key, namespace, success, error) {
         getParameter("Boolean", key, namespace, success, error);

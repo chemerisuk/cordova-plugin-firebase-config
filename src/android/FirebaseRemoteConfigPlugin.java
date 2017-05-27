@@ -27,8 +27,8 @@ public class FirebaseRemoteConfigPlugin extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if ("fetch".equals(action)) {
-            fetch(args.getLong(0), callbackContext);
+        if ("update".equals(action)) {
+            update(args.getLong(0), callbackContext);
         } else if ("getBoolean".equals(action)) {
             getBoolean(args.getString(0), args.getString(1));
         } else if ("getByteArray".equals(action)) {
@@ -46,10 +46,10 @@ public class FirebaseRemoteConfigPlugin extends CordovaPlugin {
         return true;
     }
 
-    private void fetch(long cacheExpiration, final CallbackContext callbackContext) throws JSONException {
+    private void update(long ttlSeconds, final CallbackContext callbackContext) throws JSONException {
         Activity activity = this.cordova.getActivity();
 
-        firebaseRemoteConfig.fetch(cacheExpiration);
+        firebaseRemoteConfig.fetch(ttlSeconds);
             .addOnCompleteListener(activity, new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
