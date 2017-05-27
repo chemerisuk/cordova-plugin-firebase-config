@@ -8,15 +8,12 @@ function getParameter(type, key, namespace, success, error) {
         namespace = null;
     }
 
-    exec(success, error, PLUGIN_NAME, "get" + type, []);
+    exec(success, error, PLUGIN_NAME, "get" + type, [key, namespace]);
 }
 
 module.exports = {
     fetch: function(cacheExpiration, success, error) {
         exec(success, error, PLUGIN_NAME, "fetch", [cacheExpiration]);
-    },
-    activateFetched: function(success, error) {
-        exec(success, error, PLUGIN_NAME, "activateFetched", []);
     },
     getBoolean: function(key, namespace, success, error) {
         getParameter("Boolean", key, namespace, success, error);
