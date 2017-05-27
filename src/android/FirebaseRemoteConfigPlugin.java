@@ -46,62 +46,82 @@ public class FirebaseRemoteConfigPlugin extends CordovaPlugin {
         return true;
     }
 
-    private void update(long ttlSeconds, final CallbackContext callbackContext) throws JSONException {
-        Activity activity = this.cordova.getActivity();
+    private void update(final long ttlSeconds, final CallbackContext callbackContext) {
+        final Activity activity = cordova.getActivity();
 
-        if (ttlSeconds == 0) {
-            // App should use developer mode to fetch values from the service
-            firebaseRemoteConfig.setConfigSettings(
-                new FirebaseRemoteConfigSettings.Builder()
-                    .setDeveloperModeEnabled(true)
-                    .build()
-            );
-        }
-
-        firebaseRemoteConfig.fetch(ttlSeconds)
-            .addOnCompleteListener(activity, new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        firebaseRemoteConfig.activateFetched();
-
-                        callbackContext.success();
-                    } else {
-                        callbackContext.error(task.getException().getMessage());
-                    }
+        cordova.getThreadPool().execute(new Runnable() {
+            public void run() {
+                if (ttlSeconds == 0) {
+                    // App should use developer mode to fetch values from the service
+                    firebaseRemoteConfig.setConfigSettings(
+                        new FirebaseRemoteConfigSettings.Builder()
+                            .setDeveloperModeEnabled(true)
+                            .build()
+                    );
                 }
-            });
+
+                firebaseRemoteConfig.fetch(ttlSeconds)
+                    .addOnCompleteListener(activity, new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                firebaseRemoteConfig.activateFetched();
+
+                                callbackContext.success();
+                            } else {
+                                callbackContext.error(task.getException().getMessage());
+                            }
+                        }
+                    });
+            }
+        });
     }
 
-    private void getBoolean(String key, String namespace, CallbackContext callbackContext) {
-        if (namespace.isEmpty()) {
-            callbackContext.success(firebaseRemoteConfig.getBoolean(key) ? 1 : 0);
-        } else {
-            callbackContext.success(firebaseRemoteConfig.getBoolean(key, namespace) ? 1 : 0);
-        }
+    private void getBoolean(final String key, final String namespace, final CallbackContext callbackContext) {
+        cordova.getThreadPool().execute(new Runnable() {
+            public void run() {
+                if (namespace.isEmpty()) {
+                    callbackContext.success(firebaseRemoteConfig.getBoolean(key) ? 1 : 0);
+                } else {
+                    callbackContext.success(firebaseRemoteConfig.getBoolean(key, namespace) ? 1 : 0);
+                }
+            }
+        });
     }
 
-    private void getByteArray(String key, String namespace, CallbackContext callbackContext) {
-        if (namespace.isEmpty()) {
-            callbackContext.success(firebaseRemoteConfig.getByteArray(key));
-        } else {
-            callbackContext.success(firebaseRemoteConfig.getByteArray(key, namespace));
-        }
+    private void getByteArray(final String key, final String namespace, final CallbackContext callbackContext) {
+        cordova.getThreadPool().execute(new Runnable() {
+            public void run() {
+                if (namespace.isEmpty()) {
+                    callbackContext.success(firebaseRemoteConfig.getByteArray(key));
+                } else {
+                    callbackContext.success(firebaseRemoteConfig.getByteArray(key, namespace));
+                }
+            }
+        });
     }
 
-    private void getNumber(String key, String namespace, CallbackContext callbackContext) {
-        if (namespace.isEmpty()) {
-            callbackContext.success((int)firebaseRemoteConfig.getLong(key));
-        } else {
-            callbackContext.success((int)firebaseRemoteConfig.getLong(key, namespace));
-        }
+    private void getNumber(final String key, final String namespace, final CallbackContext callbackContext) {
+        cordova.getThreadPool().execute(new Runnable() {
+            public void run() {
+                if (namespace.isEmpty()) {
+                    callbackContext.success((int)firebaseRemoteConfig.getLong(key));
+                } else {
+                    callbackContext.success((int)firebaseRemoteConfig.getLong(key, namespace));
+                }
+            }
+        });
     }
 
-    private void getString(String key, String namespace, CallbackContext callbackContext) {
-        if (namespace.isEmpty()) {
-            callbackContext.success(firebaseRemoteConfig.getString(key));
-        } else {
-            callbackContext.success(firebaseRemoteConfig.getString(key, namespace));
-        }
+    private void getString(final String key, final String namespace, final CallbackContext callbackContext) {
+        cordova.getThreadPool().execute(new Runnable() {
+            public void run() {
+                if (namespace.isEmpty()) {
+                    callbackContext.success(firebaseRemoteConfig.getString(key));
+                } else {
+                    callbackContext.success(firebaseRemoteConfig.getString(key, namespace));
+                }
+            }
+        });
     }
 }
