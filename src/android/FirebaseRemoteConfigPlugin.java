@@ -1,5 +1,8 @@
 package by.chemerisuk.cordova.firebase;
 
+import android.app.Activity;
+import android.util.Log;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
@@ -21,9 +24,7 @@ public class FirebaseRemoteConfigPlugin extends CordovaPlugin {
     protected void pluginInitialize() {
         Log.d(TAG, "Starting Firebase Remote Config plugin");
 
-        Context context = this.cordova.getActivity().getApplicationContext();
-
-        this.firebaseRemoteConfig = FirebaseRemoteConfig.getInstance(context);
+        this.firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
     }
 
     @Override
@@ -31,15 +32,15 @@ public class FirebaseRemoteConfigPlugin extends CordovaPlugin {
         if ("update".equals(action)) {
             update(args.getLong(0), callbackContext);
         } else if ("getBoolean".equals(action)) {
-            getBoolean(args.getString(0), args.getString(1));
+            getBoolean(args.getString(0), args.getString(1), callbackContext);
         } else if ("getByteArray".equals(action)) {
-            getByteArray(args.getString(0), args.getString(1));
+            getByteArray(args.getString(0), args.getString(1), callbackContext);
         } else if ("getDouble".equals(action)) {
-            getDouble(args.getString(0), args.getString(1));
+            getDouble(args.getString(0), args.getString(1), callbackContext);
         } else if ("getLong".equals(action)) {
-            getLong(args.getString(0), args.getString(1));
+            getLong(args.getString(0), args.getString(1), callbackContext);
         } else if ("getString".equals(action)) {
-            getString(args.getString(0), args.getString(1));
+            getString(args.getString(0), args.getString(1), callbackContext);
         } else {
             return false;
         }
@@ -54,21 +55,21 @@ public class FirebaseRemoteConfigPlugin extends CordovaPlugin {
             // App should use developer mode to fetch values from the service
             firebaseRemoteConfig.setConfigSettings(
                 new FirebaseRemoteConfigSettings.Builder()
-                    .setDeveloperModeEnabled(BuildConfig.DEBUG)
+                    .setDeveloperModeEnabled(true)
                     .build()
             );
         }
 
-        firebaseRemoteConfig.fetch(ttlSeconds);
+        firebaseRemoteConfig.fetch(ttlSeconds)
             .addOnCompleteListener(activity, new OnCompleteListener<Void>() {
                 @Override
-                public void onComplete(@NonNull Task<Void> task) {
+                public void onComplete(Task<Void> task) {
                     if (task.isSuccessful()) {
                         firebaseRemoteConfig.activateFetched();
 
                         callbackContext.success();
                     } else {
-                        callbackContext.error(task.getException());
+                        callbackContext.error(task.getException().getMessage());
                     }
                 }
             });
@@ -76,7 +77,7 @@ public class FirebaseRemoteConfigPlugin extends CordovaPlugin {
 
     private void getBoolean(String key, String namespace, CallbackContext callbackContext) {
         if (namespace.isEmpty()) {
-            callbackContext.success(firebaseRemoteConfig.getBoolean(key))
+            callbackContext.success(firebaseRemoteConfig.getBoolean(key));
         } else {
             callbackContext.success(firebaseRemoteConfig.getBoolean(key, namespace));
         }
@@ -84,7 +85,7 @@ public class FirebaseRemoteConfigPlugin extends CordovaPlugin {
 
     private void getByteArray(String key, String namespace, CallbackContext callbackContext) {
         if (namespace.isEmpty()) {
-            callbackContext.success(firebaseRemoteConfig.getByteArray(key))
+            callbackContext.success(firebaseRemoteConfig.getByteArray(key));
         } else {
             callbackContext.success(firebaseRemoteConfig.getByteArray(key, namespace));
         }
@@ -92,7 +93,7 @@ public class FirebaseRemoteConfigPlugin extends CordovaPlugin {
 
     private void getDouble(String key, String namespace, CallbackContext callbackContext) {
         if (namespace.isEmpty()) {
-            callbackContext.success(firebaseRemoteConfig.getDouble(key))
+            callbackContext.success(firebaseRemoteConfig.getDouble(key));
         } else {
             callbackContext.success(firebaseRemoteConfig.getDouble(key, namespace));
         }
@@ -100,7 +101,7 @@ public class FirebaseRemoteConfigPlugin extends CordovaPlugin {
 
     private void getLong(String key, String namespace, CallbackContext callbackContext) {
         if (namespace.isEmpty()) {
-            callbackContext.success(firebaseRemoteConfig.getLong(key))
+            callbackContext.success(firebaseRemoteConfig.getLong(key));
         } else {
             callbackContext.success(firebaseRemoteConfig.getLong(key, namespace));
         }
@@ -108,7 +109,7 @@ public class FirebaseRemoteConfigPlugin extends CordovaPlugin {
 
     private void getString(String key, String namespace, CallbackContext callbackContext) {
         if (namespace.isEmpty()) {
-            callbackContext.success(firebaseRemoteConfig.getString(key))
+            callbackContext.success(firebaseRemoteConfig.getString(key));
         } else {
             callbackContext.success(firebaseRemoteConfig.getString(key, namespace));
         }
