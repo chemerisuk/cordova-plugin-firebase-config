@@ -3,6 +3,7 @@ package by.chemerisuk.cordova.firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
@@ -48,6 +49,15 @@ public class FirebaseRemoteConfigPlugin extends CordovaPlugin {
 
     private void update(long ttlSeconds, final CallbackContext callbackContext) throws JSONException {
         Activity activity = this.cordova.getActivity();
+
+        if (ttlSeconds == 0) {
+            // App should use developer mode to fetch values from the service
+            firebaseRemoteConfig.setConfigSettings(
+                new FirebaseRemoteConfigSettings.Builder()
+                    .setDeveloperModeEnabled(BuildConfig.DEBUG)
+                    .build()
+            );
+        }
 
         firebaseRemoteConfig.fetch(ttlSeconds);
             .addOnCompleteListener(activity, new OnCompleteListener<Void>() {
