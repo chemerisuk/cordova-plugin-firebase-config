@@ -1,11 +1,11 @@
 var exec = require("cordova/exec");
-var PLUGIN_NAME = "FirebaseRemoteConfigPlugin";
+var PLUGIN_NAME = "FirebaseRemoteConfig";
 
 function getParameter(type, key, namespace, success, error) {
     if (typeof namespace === "function") {
         error = success;
         success = namespace;
-        namespace = null;
+        namespace = "";
     }
 
     exec(success, error, PLUGIN_NAME, "get" + type, [key, namespace]);
