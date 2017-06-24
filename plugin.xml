@@ -31,7 +31,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         <header-file src="src/ios/FirebaseRemoteConfigPlugin.h" />
         <source-file src="src/ios/FirebaseRemoteConfigPlugin.m" />
 
-        <pod id="Firebase/RemoteConfig" version="~> 4.0.0"/>
+        <pod id="Firebase/RemoteConfig" version="~> 2.0.0"/>
     </platform>
 
     <platform name="android">
