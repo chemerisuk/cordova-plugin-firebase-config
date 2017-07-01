@@ -7,7 +7,7 @@
     - (void)getString:(CDVInvokedUrlCommand*)command;
     - (void)getNumber:(CDVInvokedUrlCommand*)command;
     - (void)getBoolean:(CDVInvokedUrlCommand*)command;
-    - (void)getByteArray:(CDVInvokedUrlCommand*)command;
+    - (void)getBytes:(CDVInvokedUrlCommand*)command;
 
     @property (nonatomic, strong) FIRRemoteConfig *remoteConfig;
 @end

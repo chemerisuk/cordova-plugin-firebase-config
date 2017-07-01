@@ -15,9 +15,6 @@ module.exports = {
     update: function(ttlSeconds, success, error) {
         exec(success, error, PLUGIN_NAME, "update", [ttlSeconds || 0]);
     },
-    get: function(key, namespace, success, error) {
-        getParameter("String", key, namespace, success, error);
-    },
     getBoolean: function(key, namespace, success, error) {
         getParameter("Boolean", key, namespace, function(value) {
             success(value === 1);
@@ -29,7 +26,7 @@ module.exports = {
     getNumber: function(key, namespace, success, error) {
         getParameter("Number", key, namespace, success, error);
     },
-    getByteArray: function(key, namespace, success, error) {
-        getParameter("ByteArray", key, namespace, success, error);
+    getBytes: function(key, namespace, success, error) {
+        getParameter("Bytes", key, namespace, success, error);
     }
 };

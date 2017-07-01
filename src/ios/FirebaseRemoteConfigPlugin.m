@@ -96,7 +96,7 @@
     }];
 }
 
-- (void)getByteArray:(CDVInvokedUrlCommand *)command {
+- (void)getBytes:(CDVInvokedUrlCommand *)command {
     NSString* key = [command argumentAtIndex:0];
     NSString* namespace = [command argumentAtIndex:1];
 

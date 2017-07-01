@@ -33,8 +33,8 @@ public class FirebaseRemoteConfigPlugin extends CordovaPlugin {
             update(args.getLong(0), callbackContext);
         } else if ("getBoolean".equals(action)) {
             getBoolean(args.getString(0), args.getString(1), callbackContext);
-        } else if ("getByteArray".equals(action)) {
-            getByteArray(args.getString(0), args.getString(1), callbackContext);
+        } else if ("getBytes".equals(action)) {
+            getBytes(args.getString(0), args.getString(1), callbackContext);
         } else if ("getNumber".equals(action)) {
             getNumber(args.getString(0), args.getString(1), callbackContext);
         } else if ("getString".equals(action)) {
@@ -89,13 +89,13 @@ public class FirebaseRemoteConfigPlugin extends CordovaPlugin {
         });
     }
 
-    private void getByteArray(final String key, final String namespace, final CallbackContext callbackContext) {
+    private void getBytes(final String key, final String namespace, final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 if (namespace.isEmpty()) {
-                    callbackContext.success(firebaseRemoteConfig.getByteArray(key));
+                    callbackContext.success(firebaseRemoteConfig.getBytes(key));
                 } else {
-                    callbackContext.success(firebaseRemoteConfig.getByteArray(key, namespace));
+                    callbackContext.success(firebaseRemoteConfig.getBytes(key, namespace));
                 }
             }
         });
