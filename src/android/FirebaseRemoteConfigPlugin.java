@@ -105,9 +105,9 @@ public class FirebaseRemoteConfigPlugin extends CordovaPlugin {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 if (namespace.isEmpty()) {
-                    callbackContext.success((int)firebaseRemoteConfig.getLong(key));
+                    callbackContext.success((int)firebaseRemoteConfig.getDouble(key));
                 } else {
-                    callbackContext.success((int)firebaseRemoteConfig.getLong(key, namespace));
+                    callbackContext.success((int)firebaseRemoteConfig.getDouble(key, namespace));
                 }
             }
         });

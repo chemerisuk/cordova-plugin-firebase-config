@@ -20,28 +20,28 @@ cordova.plugins.firebase.remoteconfig.update(8 * 3600, function() {
 });
 ```
 
-### getBoolean(_key_, [_namespace_,] _callback_, _errorCallback_)
+### getBoolean(_key_, [_namespace_, ]_callback_, _errorCallback_)
 ```js
 cordova.plugins.firebase.remoteconfig.getBoolean("myBool", function(value) {
     // use value from remote config
 });
 ```
 
-### getString(_key_, [_namespace_,] _callback_, _errorCallback_)
+### getString(_key_, [_namespace_, ]_callback_, _errorCallback_)
 ```js
 cordova.plugins.firebase.remoteconfig.getString("myStr", function(value) {
     // use value from remote config
 });
 ```
 
-### getNumber(_key_, [_namespace_,] _callback_, _errorCallback_)
+### getNumber(_key_, [_namespace_, ]_callback_, _errorCallback_)
 ```js
 cordova.plugins.firebase.remoteconfig.getNumber("myNumber", function(value) {
     // use value from remote config
 });
 ```
 
-### getBytes(_key_, [_namespace_,] _callback_, _errorCallback_)
+### getBytes(_key_, [_namespace_, ]_callback_, _errorCallback_)
 ```js
 cordova.plugins.firebase.remoteconfig.getBytes("myByteArray", function(value) {
     // use value from remote config

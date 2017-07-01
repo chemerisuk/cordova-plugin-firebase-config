@@ -70,7 +70,7 @@
             configValue = [self.remoteConfig configValueForKey:key namespace:namespace];
         }
 
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:[configValue.numberValue integerValue]];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:[configValue.numberValue doubleValue]];
 
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
