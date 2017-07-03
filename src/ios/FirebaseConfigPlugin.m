@@ -1,8 +1,8 @@
-#import "FirebaseRemoteConfigPlugin.h"
+#import "FirebaseConfigPlugin.h"
 @import Firebase;
 
 
-@implementation FirebaseRemoteConfigPlugin
+@implementation FirebaseConfigPlugin
 
 - (void)pluginInitialize {
     NSLog(@"Starting Firebase Remote Config plugin");

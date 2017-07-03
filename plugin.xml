@@ -10,8 +10,8 @@ xmlns:android="http://schemas.android.com/apk/res/android"
     <repo>https://github.com/chemerisuk/cordova-plugin-firebase-remoteconfig</repo>
     <issue>https://github.com/chemerisuk/cordova-plugin-firebase-remoteconfig/issues</issue>
 
-    <js-module src="www/FirebaseRemoteConfig.js" name="FirebaseRemoteConfig">
-        <merges target="cordova.plugins.firebase.remoteconfig" />
+    <js-module src="www/FirebaseConfig.js" name="FirebaseConfig">
+        <merges target="cordova.plugins.firebase.config" />
     </js-module>
 
     <engines>
@@ -22,29 +22,29 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
-            <feature name="FirebaseRemoteConfig">
-                <param name="ios-package" value="FirebaseRemoteConfigPlugin" />
+            <feature name="FirebaseConfig">
+                <param name="ios-package" value="FirebaseConfigPlugin" />
                 <param name="onload" value="false" />
             </feature>
         </config-file>
 
-        <header-file src="src/ios/FirebaseRemoteConfigPlugin.h" />
-        <source-file src="src/ios/FirebaseRemoteConfigPlugin.m" />
+        <header-file src="src/ios/FirebaseConfigPlugin.h" />
+        <source-file src="src/ios/FirebaseConfigPlugin.m" />
 
         <pod id="Firebase/RemoteConfig"/>
     </platform>
 
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="FirebaseRemoteConfig">
-                <param name="android-package" value="by.chemerisuk.cordova.firebase.FirebaseRemoteConfigPlugin" />
+            <feature name="FirebaseConfig">
+                <param name="android-package" value="by.chemerisuk.cordova.firebase.FirebaseConfigPlugin" />
                 <param name="onload" value="false" />
             </feature>
         </config-file>
 
         <framework src="com.google.firebase:firebase-config:11.0.+" />
 
-        <source-file src="src/android/FirebaseRemoteConfigPlugin.java"
+        <source-file src="src/android/FirebaseConfigPlugin.java"
             target-dir="src/by/chemerisuk/cordova/firebase/" />
     </platform>
 

@@ -15,7 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 
-public class FirebaseRemoteConfigPlugin extends CordovaPlugin {
+public class FirebaseConfigPlugin extends CordovaPlugin {
     private static final String TAG = "FirebaseRemoteConfigPlugin";
 
     private FirebaseRemoteConfig firebaseRemoteConfig;
@@ -47,8 +47,6 @@ public class FirebaseRemoteConfigPlugin extends CordovaPlugin {
     }
 
     private void update(final long ttlSeconds, final CallbackContext callbackContext) {
-        final Activity activity = cordova.getActivity();
-
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 if (ttlSeconds == 0) {
@@ -61,7 +59,7 @@ public class FirebaseRemoteConfigPlugin extends CordovaPlugin {
                 }
 
                 firebaseRemoteConfig.fetch(ttlSeconds)
-                    .addOnCompleteListener(activity, new OnCompleteListener<Void>() {
+                    .addOnCompleteListener(cordova.getActivity(), new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(Task<Void> task) {
                             if (task.isSuccessful()) {
@@ -93,9 +91,9 @@ public class FirebaseRemoteConfigPlugin extends CordovaPlugin {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 if (namespace.isEmpty()) {
-                    callbackContext.success(firebaseRemoteConfig.getBytes(key));
+                    callbackContext.success(firebaseRemoteConfig.getByteArray(key));
                 } else {
-                    callbackContext.success(firebaseRemoteConfig.getBytes(key, namespace));
+                    callbackContext.success(firebaseRemoteConfig.getByteArray(key, namespace));
                 }
             }
         });

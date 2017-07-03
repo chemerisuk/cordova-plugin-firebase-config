@@ -1,7 +1,7 @@
 #import <Cordova/CDV.h>
 @import Firebase;
 
-@interface FirebaseRemoteConfigPlugin : CDVPlugin
+@interface FirebaseConfigPlugin : CDVPlugin
 
     - (void)update:(CDVInvokedUrlCommand*)command;
     - (void)getString:(CDVInvokedUrlCommand*)command;
