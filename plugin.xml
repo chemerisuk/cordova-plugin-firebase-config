@@ -1,14 +1,14 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
 xmlns:android="http://schemas.android.com/apk/res/android"
-           id="cordova-plugin-firebase-remoteconfig"
+           id="cordova-plugin-firebase-config"
       version="0.10.0">
 
-    <name>cordova-plugin-firebase-remoteconfig</name>
+    <name>cordova-plugin-firebase-config</name>
     <description>Cordova plugin for Firebase Remote Config</description>
     <license>MIT</license>
     <keywords>cordova</keywords>
-    <repo>https://github.com/chemerisuk/cordova-plugin-firebase-remoteconfig</repo>
-    <issue>https://github.com/chemerisuk/cordova-plugin-firebase-remoteconfig/issues</issue>
+    <repo>https://github.com/chemerisuk/cordova-plugin-firebase-config</repo>
+    <issue>https://github.com/chemerisuk/cordova-plugin-firebase-config/issues</issue>
 
     <js-module src="www/FirebaseConfig.js" name="FirebaseConfig">
         <merges target="cordova.plugins.firebase.config" />

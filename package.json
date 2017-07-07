@@ -1,9 +1,9 @@
 {
-  "name": "cordova-plugin-firebase-remoteconfig",
+  "name": "cordova-plugin-firebase-config",
   "version": "0.10.0",
   "description": "Cordova plugin for Firebase Remote Config",
   "cordova": {
-    "id": "cordova-plugin-firebase-remoteconfig",
+    "id": "cordova-plugin-firebase-config",
     "platforms": [
       "ios",
       "android"
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chemerisuk/cordova-plugin-firebase-remoteconfig.git"
+    "url": "git+https://github.com/chemerisuk/cordova-plugin-firebase-config.git"
   },
   "author": "Maksim Chemerisuk <chemerisuk@gmail.com> (https://github.com/chemerisuk)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/chemerisuk/cordova-plugin-firebase-remoteconfig/issues"
+    "url": "https://github.com/chemerisuk/cordova-plugin-firebase-config/issues"
   },
-  "homepage": "https://github.com/chemerisuk/cordova-plugin-firebase-remoteconfig#readme",
+  "homepage": "https://github.com/chemerisuk/cordova-plugin-firebase-config#readme",
   "keywords": [
     "cordova",
     "firebase",
