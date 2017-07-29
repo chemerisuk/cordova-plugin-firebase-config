@@ -1,6 +1,9 @@
 package by.chemerisuk.cordova.firebase;
 
+import java.util.Collections;
+
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,6 +28,17 @@ public class FirebaseConfigPlugin extends CordovaPlugin {
         Log.d(TAG, "Starting Firebase Remote Config plugin");
 
         this.firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+
+        String filename = preferences.getString("FirebaseRemoteConfigDefaults", "");
+        if (filename.isEmpty()) {
+            // always call setDefaults in order to avoid exception
+            // https://github.com/firebase/quickstart-android/issues/291
+            this.firebaseRemoteConfig.setDefaults(Collections.<String, Object>emptyMap());
+        } else {
+            Context ctx = cordova.getActivity().getApplicationContext();
+            int resourceId = ctx.getResources().getIdentifier(filename, "xml", ctx.getPackageName());
+            this.firebaseRemoteConfig.setDefaults(resourceId);
+        }
     }
 
     @Override
