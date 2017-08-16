@@ -10,6 +10,32 @@
 - iOS
 - Android
 
+## Preferences
+You can specify `FirebaseRemoteConfigDefaults` in `config.xml` to define filename of a file with default values.
+
+On Android the file is located at `platforms/android/res/xml/${filename}.xml` and has a structure like below:
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>param1</key>
+        <value>value1</value>
+    </entry>
+</defaultsMap>
+```
+
+On iOS file the file is located at `platforms/ios/<Your App Name>/${filename}.plist` and has a structure like below:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>param1</key>
+    <string>value1</string>
+</dict>
+</plist>
+```
+
 ## Methods
 
 ### update(_ttlSeconds_, _callback_, _errorCallback_)
