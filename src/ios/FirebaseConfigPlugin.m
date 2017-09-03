@@ -1,5 +1,5 @@
 #import "FirebaseConfigPlugin.h"
-@import Firebase;
+@import FirebaseRemoteConfig;
 
 
 @implementation FirebaseConfigPlugin
