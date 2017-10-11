@@ -1,32 +1,29 @@
 var exec = require("cordova/exec");
 var PLUGIN_NAME = "FirebaseConfig";
 
-function getParameter(type, key, namespace, success, error) {
-    if (typeof namespace === "function") {
-        error = success;
-        success = namespace;
-        namespace = "";
-    }
-
-    exec(success, error, PLUGIN_NAME, "get" + type, [key, namespace]);
+function promiseParameter(type, key, namespace) {
+    return new Promise(function(resolve, reject) {
+        exec(resolve, reject, PLUGIN_NAME, "get" + type, [key, namespace]);
+    });
 }
 
 module.exports = {
-    update: function(ttlSeconds, success, error) {
-        exec(success, error, PLUGIN_NAME, "update", [ttlSeconds || 0]);
+    update: function(ttlSeconds) {
+        return new Promise(function(resolve, reject) {
+            exec(resolve, reject, PLUGIN_NAME, "update", [ttlSeconds || 0]);
+        });
     },
-    getBoolean: function(key, namespace, success, error) {
-        getParameter("Boolean", key, namespace, function(value) {
-            success(value === 1);
-        }, error);
+    getBoolean: function(key, namespace) {
+        return promiseParameter("Boolean", key, namespace)
+            .then(function(value) { return value === 1; });
     },
-    getString: function(key, namespace, success, error) {
-        getParameter("String", key, namespace, success, error);
+    getString: function(key, namespace) {
+        return promiseParameter("String", key, namespace);
     },
-    getNumber: function(key, namespace, success, error) {
-        getParameter("Number", key, namespace, success, error);
+    getNumber: function(key, namespace) {
+        return promiseParameter("Number", key, namespace);
     },
-    getBytes: function(key, namespace, success, error) {
-        getParameter("Bytes", key, namespace, success, error);
+    getBytes: function(key, namespace) {
+        return promiseParameter("Bytes", key, namespace);
     }
 };
