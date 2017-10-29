@@ -3,7 +3,7 @@ var PLUGIN_NAME = "FirebaseConfig";
 
 function promiseParameter(type, key, namespace) {
     return new Promise(function(resolve, reject) {
-        exec(resolve, reject, PLUGIN_NAME, "get" + type, [key, namespace]);
+        exec(resolve, reject, PLUGIN_NAME, "get" + type, [key, namespace || ""]);
     });
 }
 
