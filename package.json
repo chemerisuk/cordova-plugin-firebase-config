@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-firebase-config",
-  "version": "0.10.2",
+  "version": "0.10.3",
   "description": "Cordova plugin for Firebase Remote Config",
   "cordova": {
     "id": "cordova-plugin-firebase-config",
