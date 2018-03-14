@@ -41,7 +41,9 @@ On iOS file the file is located at `platforms/ios/<Your App Name>/${filename}.pl
 ## Methods
 Every method call returns a promise which is optionally fulfilled with an appropriate value.
 
-### update(_ttlSeconds_, _callback_, _errorCallback_)
+_Namespace_ argument is optional.
+
+### update(_ttlSeconds_)
 Fetches remote config values with appropriate TTL and then activates them.
 ```js
 cordova.plugins.firebase.config.update(8 * 3600).then(function() {
@@ -49,28 +51,28 @@ cordova.plugins.firebase.config.update(8 * 3600).then(function() {
 });
 ```
 
-### getBoolean(_key_, [_namespace_, ]_callback_, _errorCallback_)
+### getBoolean(_key_, _namespace_)
 ```js
 cordova.plugins.firebase.config.getBoolean("myBool").then(function(value) {
     // use value from remote config
 });
 ```
 
-### getString(_key_, [_namespace_, ]_callback_, _errorCallback_)
+### getString(_key_, _namespace_)
 ```js
 cordova.plugins.firebase.config.getString("myStr").then(function(value) {
     // use value from remote config
 });
 ```
 
-### getNumber(_key_, [_namespace_, ]_callback_, _errorCallback_)
+### getNumber(_key_, _namespace_)
 ```js
 cordova.plugins.firebase.config.getNumber("myNumber").then(function(value) {
     // use value from remote config
 });
 ```
 
-### getBytes(_key_, [_namespace_, ]_callback_, _errorCallback_)
+### getBytes(_key_, _namespace_)
 ```js
 cordova.plugins.firebase.config.getBytes("myByteArray").then(function(value) {
     // use value from remote config
