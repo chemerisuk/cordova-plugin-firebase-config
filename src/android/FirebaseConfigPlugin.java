@@ -116,11 +116,16 @@ public class FirebaseConfigPlugin extends CordovaPlugin {
     private void getNumber(final String key, final String namespace, final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
+                double value;
+
                 if (namespace.isEmpty()) {
-                    callbackContext.success((int)firebaseRemoteConfig.getDouble(key));
+                    value = firebaseRemoteConfig.getDouble(key);
                 } else {
-                    callbackContext.success((int)firebaseRemoteConfig.getDouble(key, namespace));
+                    value = firebaseRemoteConfig.getDouble(key, namespace);
                 }
+
+                callbackContext.sendPluginResult(
+                    new PluginResult(PluginResult.Status.OK, (float)value));
             }
         });
     }
