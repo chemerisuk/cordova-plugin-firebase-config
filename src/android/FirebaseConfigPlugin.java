@@ -61,32 +61,28 @@ public class FirebaseConfigPlugin extends CordovaPlugin {
     }
 
     private void update(final long ttlSeconds, final CallbackContext callbackContext) {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                if (ttlSeconds == 0) {
-                    // App should use developer mode to fetch values from the service
-                    firebaseRemoteConfig.setConfigSettings(
-                        new FirebaseRemoteConfigSettings.Builder()
-                            .setDeveloperModeEnabled(true)
-                            .build()
-                    );
+        if (ttlSeconds == 0) {
+            // App should use developer mode to fetch values from the service
+            firebaseRemoteConfig.setConfigSettings(
+                new FirebaseRemoteConfigSettings.Builder()
+                    .setDeveloperModeEnabled(true)
+                    .build()
+            );
+        }
+
+        firebaseRemoteConfig.fetch(ttlSeconds)
+            .addOnCompleteListener(cordova.getActivity(), new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        firebaseRemoteConfig.activateFetched();
+
+                        callbackContext.success();
+                    } else {
+                        callbackContext.error(task.getException().getMessage());
+                    }
                 }
-
-                firebaseRemoteConfig.fetch(ttlSeconds)
-                    .addOnCompleteListener(cordova.getActivity(), new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                firebaseRemoteConfig.activateFetched();
-
-                                callbackContext.success();
-                            } else {
-                                callbackContext.error(task.getException().getMessage());
-                            }
-                        }
-                    });
-            }
-        });
+            });
     }
 
     private void getBoolean(final String key, final String namespace, final CallbackContext callbackContext) {
