@@ -1,5 +1,5 @@
 #import <Cordova/CDV.h>
-@import FirebaseRemoteConfig;
+@import Firebase;
 
 @interface FirebaseConfigPlugin : CDVPlugin
 

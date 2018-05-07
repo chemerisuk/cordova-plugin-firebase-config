@@ -1,11 +1,14 @@
 #import "FirebaseConfigPlugin.h"
-@import FirebaseRemoteConfig;
-
+@import Firebase;
 
 @implementation FirebaseConfigPlugin
 
 - (void)pluginInitialize {
     NSLog(@"Starting Firebase Remote Config plugin");
+
+    if(![FIRApp defaultApp]) {
+        [FIRApp configure];
+    }
 
     self.remoteConfig = [FIRRemoteConfig remoteConfig];
 
@@ -20,105 +23,65 @@
     long expirationDuration = [ttlSeconds longValue];
 
     if (expirationDuration == 0) {
-        FIRRemoteConfigSettings *remoteConfigSettings = [[FIRRemoteConfigSettings alloc] initWithDeveloperModeEnabled:YES];
-        self.remoteConfig.configSettings = remoteConfigSettings;
+        self.remoteConfig.configSettings = [[FIRRemoteConfigSettings alloc] initWithDeveloperModeEnabled:YES];
     }
 
-    [self.commandDelegate runInBackground: ^{
-        [self.remoteConfig fetchWithExpirationDuration:expirationDuration completionHandler:^(FIRRemoteConfigFetchStatus status, NSError *error) {
-            CDVPluginResult *pluginResult = nil;
+    [self.remoteConfig fetchWithExpirationDuration:expirationDuration completionHandler:^(FIRRemoteConfigFetchStatus status, NSError *error) {
+        CDVPluginResult *pluginResult = nil;
 
-            if (status == FIRRemoteConfigFetchStatusSuccess) {
-                [self.remoteConfig activateFetched];
+        if (status == FIRRemoteConfigFetchStatusSuccess) {
+            [self.remoteConfig activateFetched];
 
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-            } else {
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:error.localizedDescription];
-            }
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        } else {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:error.localizedDescription];
+        }
 
-            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-        }];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
 
 - (void)getString:(CDVInvokedUrlCommand *)command {
-    NSString* key = [command argumentAtIndex:0];
-    NSString* namespace = [command argumentAtIndex:1];
+    FIRRemoteConfigValue *configValue = [self getConfigValue:command];
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                      messageAsString:configValue.stringValue];
 
-    [self.commandDelegate runInBackground: ^{
-        CDVPluginResult *pluginResult = nil;
-        FIRRemoteConfigValue *configValue = nil;
-
-        if ([namespace length] == 0) {
-            configValue = [self.remoteConfig configValueForKey:key];
-        } else {
-            configValue = [self.remoteConfig configValueForKey:key namespace:namespace];
-        }
-
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:configValue.stringValue];
-
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    }];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void)getNumber:(CDVInvokedUrlCommand *)command {
-    NSString* key = [command argumentAtIndex:0];
-    NSString* namespace = [command argumentAtIndex:1];
+    FIRRemoteConfigValue *configValue = [self getConfigValue:command];
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                      messageAsDouble:[configValue.numberValue doubleValue]];
 
-    [self.commandDelegate runInBackground: ^{
-        CDVPluginResult *pluginResult = nil;
-        FIRRemoteConfigValue *configValue = nil;
-
-        if ([namespace length] == 0) {
-            configValue = [self.remoteConfig configValueForKey:key];
-        } else {
-            configValue = [self.remoteConfig configValueForKey:key namespace:namespace];
-        }
-
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:[configValue.numberValue doubleValue]];
-
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    }];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void)getBoolean:(CDVInvokedUrlCommand *)command {
-    NSString* key = [command argumentAtIndex:0];
-    NSString* namespace = [command argumentAtIndex:1];
+    FIRRemoteConfigValue *configValue = [self getConfigValue:command];
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                        messageAsBool:configValue.boolValue];
 
-    [self.commandDelegate runInBackground: ^{
-        CDVPluginResult *pluginResult = nil;
-        FIRRemoteConfigValue *configValue = nil;
-
-        if ([namespace length] == 0) {
-            configValue = [self.remoteConfig configValueForKey:key];
-        } else {
-            configValue = [self.remoteConfig configValueForKey:key namespace:namespace];
-        }
-
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:configValue.boolValue];
-
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    }];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void)getBytes:(CDVInvokedUrlCommand *)command {
+    FIRRemoteConfigValue *configValue = [self getConfigValue:command];
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                 messageAsArrayBuffer:configValue.dataValue];
+
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (FIRRemoteConfigValue*)getConfigValue:(CDVInvokedUrlCommand *)command {
     NSString* key = [command argumentAtIndex:0];
     NSString* namespace = [command argumentAtIndex:1];
 
-    [self.commandDelegate runInBackground: ^{
-        CDVPluginResult *pluginResult = nil;
-        FIRRemoteConfigValue *configValue = nil;
-
-        if ([namespace length] == 0) {
-            configValue = [self.remoteConfig configValueForKey:key];
-        } else {
-            configValue = [self.remoteConfig configValueForKey:key namespace:namespace];
-        }
-
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArrayBuffer:configValue.dataValue];
-
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    }];
+    if ([namespace length] == 0) {
+        return [self.remoteConfig configValueForKey:key];
+    } else {
+        return [self.remoteConfig configValueForKey:key namespace:namespace];
+    }
 }
 
 
