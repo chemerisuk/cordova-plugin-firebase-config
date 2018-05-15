@@ -24,14 +24,14 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         <config-file target="config.xml" parent="/*">
             <feature name="FirebaseConfig">
                 <param name="ios-package" value="FirebaseConfigPlugin" />
-                <param name="onload" value="false" />
             </feature>
         </config-file>
 
         <header-file src="src/ios/FirebaseConfigPlugin.h" />
         <source-file src="src/ios/FirebaseConfigPlugin.m" />
 
-        <framework src="Firebase/RemoteConfig" type="podspec" spec="~> 4.1"/>
+        <framework src="Firebase/Core" type="podspec" spec="~> 5.0"/>
+        <framework src="Firebase/RemoteConfig" type="podspec" spec="~> 5.0"/>
     </platform>
 
     <platform name="android">
@@ -40,7 +40,6 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="FirebaseConfig">
                 <param name="android-package" value="by.chemerisuk.cordova.firebase.FirebaseConfigPlugin" />
-                <param name="onload" value="false" />
             </feature>
         </config-file>
 
