@@ -60,7 +60,7 @@
 - (void)getBoolean:(CDVInvokedUrlCommand *)command {
     FIRRemoteConfigValue *configValue = [self getConfigValue:command];
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-                                                        messageAsBool:configValue.boolValue];
+                                                        messageAsInt:configValue.boolValue ? 1 : 0];
 
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
