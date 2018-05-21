@@ -94,7 +94,7 @@ public class FirebaseConfigPlugin extends CordovaPlugin {
                             new PluginResult(PluginResult.Status.OK, firebaseRemoteConfig.getBoolean(key)));
                 } else {
                     callbackContext.sendPluginResult(
-                            new PluginResult(PluginResult.Status.OK, firebaseRemoteConfig.getBoolean(key)));
+                            new PluginResult(PluginResult.Status.OK, firebaseRemoteConfig.getBoolean(key, namespace)));
                 }
             }
         });
