@@ -15,7 +15,7 @@ module.exports = {
     },
     getBoolean: function(key, namespace) {
         return promiseParameter("Boolean", key, namespace)
-            .then(function(value) { return value === 1; });
+            .then(function(value) { return value; });
     },
     getString: function(key, namespace) {
         return promiseParameter("String", key, namespace);
