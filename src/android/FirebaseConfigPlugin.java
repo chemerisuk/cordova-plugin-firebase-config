@@ -13,6 +13,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigValue;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.PluginResult;
@@ -45,17 +46,17 @@ public class FirebaseConfigPlugin extends ReflectiveCordovaPlugin {
     }
 
     @CordovaMethod
-    private void update(long ttlSeconds, final CallbackContext callbackContext) {
+    protected void update(long ttlSeconds, final CallbackContext callbackContext) {
         if (ttlSeconds == 0) {
             // App should use developer mode to fetch values from the service
-            firebaseRemoteConfig.setConfigSettings(
+            this.firebaseRemoteConfig.setConfigSettings(
                 new FirebaseRemoteConfigSettings.Builder()
                     .setDeveloperModeEnabled(true)
                     .build()
             );
         }
 
-        firebaseRemoteConfig.fetch(ttlSeconds)
+        this.firebaseRemoteConfig.fetch(ttlSeconds)
             .addOnCompleteListener(cordova.getActivity(), new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(Task<Void> task) {
@@ -71,45 +72,36 @@ public class FirebaseConfigPlugin extends ReflectiveCordovaPlugin {
     }
 
     @CordovaMethod
-    private void getBoolean(String key, String namespace, CallbackContext callbackContext) {
-        if (namespace.isEmpty()) {
-            callbackContext.sendPluginResult(
-                    new PluginResult(PluginResult.Status.OK, firebaseRemoteConfig.getBoolean(key)));
-        } else {
-            callbackContext.sendPluginResult(
-                    new PluginResult(PluginResult.Status.OK, firebaseRemoteConfig.getBoolean(key, namespace)));
-        }
+    protected void getBoolean(String key, String namespace, CallbackContext callbackContext) {
+        boolean value = getValue(key, namespace).asBoolean();
+
+        callbackContext.sendPluginResult(
+            new PluginResult(PluginResult.Status.OK, value));
     }
 
     @CordovaMethod
-    private void getBytes(String key, String namespace, CallbackContext callbackContext) {
-        if (namespace.isEmpty()) {
-            callbackContext.success(firebaseRemoteConfig.getByteArray(key));
-        } else {
-            callbackContext.success(firebaseRemoteConfig.getByteArray(key, namespace));
-        }
+    protected void getBytes(String key, String namespace, CallbackContext callbackContext) {
+        callbackContext.success(getValue(key, namespace).asByteArray());
     }
 
     @CordovaMethod
-    private void getNumber(String key, String namespace, CallbackContext callbackContext) {
-        double value;
-
-        if (namespace.isEmpty()) {
-            value = firebaseRemoteConfig.getDouble(key);
-        } else {
-            value = firebaseRemoteConfig.getDouble(key, namespace);
-        }
+    protected void getNumber(String key, String namespace, CallbackContext callbackContext) {
+        double value = getValue(key, namespace).asDouble();
 
         callbackContext.sendPluginResult(
             new PluginResult(PluginResult.Status.OK, (float)value));
     }
 
     @CordovaMethod
-    private void getString(String key, String namespace, CallbackContext callbackContext) {
+    protected void getString(String key, String namespace, CallbackContext callbackContext) {
+        callbackContext.success(getValue(key, namespace).asString());
+    }
+
+    private FirebaseRemoteConfigValue getValue(String key, String namespace) {
         if (namespace.isEmpty()) {
-            callbackContext.success(firebaseRemoteConfig.getString(key));
+            return this.firebaseRemoteConfig.getValue(key);
         } else {
-            callbackContext.success(firebaseRemoteConfig.getString(key, namespace));
+            return this.firebaseRemoteConfig.getValue(key, namespace);
         }
     }
 }
