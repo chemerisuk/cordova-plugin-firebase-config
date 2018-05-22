@@ -5,7 +5,7 @@
 
     cordova plugin add cordova-plugin-firebase-config --save
 
-If you need to set a specific dependency version on Android then use variable `FIREBASE_VERSION`.
+Use variable `FIREBASE_CONFIG_VERSION` to override dependency version on Android.
 
 ## Supported Platforms
 
@@ -81,4 +81,4 @@ cordova.plugins.firebase.config.getBytes("myByteArray").then(function(value) {
 
 [npm-url]: https://www.npmjs.com/package/cordova-plugin-firebase-config
 [npm-version]: https://img.shields.io/npm/v/cordova-plugin-firebase-config.svg
-[npm-downloads]: https://img.shields.io/npm/dt/cordova-plugin-firebase-config.svg
+[npm-downloads]: https://img.shields.io/npm/dm/cordova-plugin-firebase-config.svg
