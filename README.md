@@ -23,6 +23,10 @@ On Android the file is located at `platforms/android/res/xml/${filename}.xml` an
         <key>param1</key>
         <value>value1</value>
     </entry>
+    <entry>
+        <key>param2</key>
+        <value>value2</value>
+    </entry>
 </defaultsMap>
 ```
 
@@ -34,6 +38,8 @@ On iOS file the file is located at `platforms/ios/<Your App Name>/${filename}.pl
 <dict>
     <key>param1</key>
     <string>value1</string>
+    <key>param2</key>
+    <string>value2</string>
 </dict>
 </plist>
 ```
