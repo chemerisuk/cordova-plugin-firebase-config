@@ -2,7 +2,6 @@ package by.chemerisuk.cordova.firebase;
 
 import java.util.Collections;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
@@ -17,12 +16,10 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigValue;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.PluginResult;
-import org.json.JSONArray;
-import org.json.JSONException;
 
 
 public class FirebaseConfigPlugin extends ReflectiveCordovaPlugin {
-    private static final String TAG = "FirebaseRemoteConfigPlugin";
+    private static final String TAG = "FirebaseConfigPlugin";
 
     private FirebaseRemoteConfig firebaseRemoteConfig;
 
