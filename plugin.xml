@@ -35,7 +35,8 @@ xmlns:android="http://schemas.android.com/apk/res/android"
     </platform>
 
     <platform name="android">
-        <preference name="FIREBASE_CONFIG_VERSION" default="16.0.+"/>
+        <preference name="FIREBASE_CORE_VERSION" default="16.0.+"/>
+        <preference name="FIREBASE_CONFIG_VERSION" default="16.3.+"/>
 
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="FirebaseConfig">
@@ -46,7 +47,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         <dependency id="cordova-support-android-plugin" version="~1.0.0"/>
         <dependency id="cordova-support-google-services" version="~1.2.0"/>
 
-        <framework src="com.google.firebase:firebase-core:$FIREBASE_CONFIG_VERSION" />
+        <framework src="com.google.firebase:firebase-core:$FIREBASE_CORE_VERSION" />
         <framework src="com.google.firebase:firebase-config:$FIREBASE_CONFIG_VERSION" />
 
         <source-file src="src/android/FirebaseConfigPlugin.java"
