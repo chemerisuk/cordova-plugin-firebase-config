@@ -1,9 +1,9 @@
 var exec = require("cordova/exec");
 var PLUGIN_NAME = "FirebaseConfig";
 
-function promiseParameter(type, key, namespace) {
+function promiseParameter(type, key) {
     return new Promise(function(resolve, reject) {
-        exec(resolve, reject, PLUGIN_NAME, "get" + type, [key, namespace || ""]);
+        exec(resolve, reject, PLUGIN_NAME, "get" + type, [key || ""]);
     });
 }
 
@@ -13,16 +13,16 @@ module.exports = {
             exec(resolve, reject, PLUGIN_NAME, "update", [ttlSeconds || 0]);
         });
     },
-    getBoolean: function(key, namespace) {
-        return promiseParameter("Boolean", key, namespace);
+    getBoolean: function(key) {
+        return promiseParameter("Boolean", key);
     },
-    getString: function(key, namespace) {
-        return promiseParameter("String", key, namespace);
+    getString: function(key) {
+        return promiseParameter("String", key);
     },
-    getNumber: function(key, namespace) {
-        return promiseParameter("Number", key, namespace);
+    getNumber: function(key) {
+        return promiseParameter("Number", key);
     },
-    getBytes: function(key, namespace) {
-        return promiseParameter("Bytes", key, namespace);
+    getBytes: function(key) {
+        return promiseParameter("Bytes", key);
     }
 };

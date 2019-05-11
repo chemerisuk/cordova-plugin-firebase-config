@@ -75,13 +75,8 @@
 
 - (FIRRemoteConfigValue*)getConfigValue:(CDVInvokedUrlCommand *)command {
     NSString* key = [command argumentAtIndex:0];
-    NSString* namespace = [command argumentAtIndex:1];
 
-    if ([namespace length] == 0) {
-        return [self.remoteConfig configValueForKey:key];
-    } else {
-        return [self.remoteConfig configValueForKey:key namespace:namespace];
-    }
+    return [self.remoteConfig configValueForKey:key];
 }
 
 

@@ -68,36 +68,32 @@ public class FirebaseConfigPlugin extends ReflectiveCordovaPlugin {
     }
 
     @CordovaMethod
-    protected void getBoolean(String key, String namespace, CallbackContext callbackContext) {
-        boolean value = getValue(key, namespace).asBoolean();
+    protected void getBoolean(String key, CallbackContext callbackContext) {
+        boolean value = getValue(key).asBoolean();
 
         callbackContext.sendPluginResult(
             new PluginResult(PluginResult.Status.OK, value));
     }
 
     @CordovaMethod
-    protected void getBytes(String key, String namespace, CallbackContext callbackContext) {
-        callbackContext.success(getValue(key, namespace).asByteArray());
+    protected void getBytes(String key, CallbackContext callbackContext) {
+        callbackContext.success(getValue(key).asByteArray());
     }
 
     @CordovaMethod
-    protected void getNumber(String key, String namespace, CallbackContext callbackContext) {
-        double value = getValue(key, namespace).asDouble();
+    protected void getNumber(String key, CallbackContext callbackContext) {
+        double value = getValue(key).asDouble();
 
         callbackContext.sendPluginResult(
             new PluginResult(PluginResult.Status.OK, (float)value));
     }
 
     @CordovaMethod
-    protected void getString(String key, String namespace, CallbackContext callbackContext) {
-        callbackContext.success(getValue(key, namespace).asString());
+    protected void getString(String key, CallbackContext callbackContext) {
+        callbackContext.success(getValue(key).asString());
     }
 
-    private FirebaseRemoteConfigValue getValue(String key, String namespace) {
-        if (namespace.isEmpty()) {
-            return this.firebaseRemoteConfig.getValue(key);
-        } else {
-            return this.firebaseRemoteConfig.getValue(key, namespace);
-        }
+    private FirebaseRemoteConfigValue getValue(String key) {
+        return this.firebaseRemoteConfig.getValue(key);
     }
 }
