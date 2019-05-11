@@ -47,38 +47,52 @@ On iOS file the file is located at `platforms/ios/<Your App Name>/${filename}.pl
 ## Methods
 Every method call returns a promise which is optionally fulfilled with an appropriate value.
 
-_Namespace_ argument is optional.
-
-### update(_ttlSeconds_)
-Fetches remote config values with appropriate TTL and then activates them.
+### fetch(_expirationDuration_)
+Starts fetching configs, adhering to the specified minimum fetch interval.
 ```js
-cordova.plugins.firebase.config.update(8 * 3600).then(function() {
-    // your config was updated
+cordova.plugins.firebase.config.fetch(8 * 3600).then(function() {
+    // your config was fetched
 });
 ```
 
-### getBoolean(_key_, _namespace_)
+### activate()
+Asynchronously activates the most recently fetched configs, so that the fetched key value pairs take effect.
+```js
+cordova.plugins.firebase.config.activate().then(function() {
+    // your config was activated
+});
+```
+
+### fetchAndActivate()
+Asynchronously fetches and then activates the fetched configs.
+```js
+cordova.plugins.firebase.config.fetchAndActivate().then(function() {
+    // your config was fetched and activated
+});
+```
+
+### getBoolean(_key_)
 ```js
 cordova.plugins.firebase.config.getBoolean("myBool").then(function(value) {
     // use value from remote config
 });
 ```
 
-### getString(_key_, _namespace_)
+### getString(_key_)
 ```js
 cordova.plugins.firebase.config.getString("myStr").then(function(value) {
     // use value from remote config
 });
 ```
 
-### getNumber(_key_, _namespace_)
+### getNumber(_key_)
 ```js
 cordova.plugins.firebase.config.getNumber("myNumber").then(function(value) {
     // use value from remote config
 });
 ```
 
-### getBytes(_key_, _namespace_)
+### getBytes(_key_)
 ```js
 cordova.plugins.firebase.config.getBytes("myByteArray").then(function(value) {
     // use value from remote config
