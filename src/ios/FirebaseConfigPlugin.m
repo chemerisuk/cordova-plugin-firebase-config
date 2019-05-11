@@ -19,8 +19,7 @@
 }
 
 - (void)fetch:(CDVInvokedUrlCommand *)command {
-    NSNumber* ttlSeconds = [[command argumentAtIndex:0] longValue];
-    long expirationDuration = [ttlSeconds longValue];
+    long expirationDuration = [[command argumentAtIndex:0] longValue];
 
     [self.remoteConfig fetchWithExpirationDuration:expirationDuration completionHandler:^(FIRRemoteConfigFetchStatus status, NSError *err) {
         CDVPluginResult *pluginResult = nil;

@@ -11,7 +11,6 @@ import by.chemerisuk.cordova.support.ReflectiveCordovaPlugin;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigValue;
 
 import org.apache.cordova.CallbackContext;
@@ -44,56 +43,54 @@ public class FirebaseConfigPlugin extends ReflectiveCordovaPlugin {
     @CordovaMethod
     protected void fetch(long expirationDuration, final CallbackContext callbackContext) {
         this.firebaseRemoteConfig.fetch(expirationDuration)
-            .addOnCompleteListener(cordova.getActivity(), new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        callbackContext.success();
-                    } else {
-                        callbackContext.error(task.getException().getMessage());
+                .addOnCompleteListener(cordova.getActivity(), new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            callbackContext.success();
+                        } else {
+                            callbackContext.error(task.getException().getMessage());
+                        }
                     }
-                }
-            });
+                });
     }
 
     @CordovaMethod
     protected void activate(final CallbackContext callbackContext) {
         this.firebaseRemoteConfig.activate()
-            .addOnCompleteListener(cordova.getActivity(), new OnCompleteListener<Boolean>() {
-                @Override
-                public void onComplete(Task<Boolean> task) {
-                    if (task.isSuccessful()) {
-                        callbackContext.sendPluginResult(
-                            new PluginResult(PluginResult.Status.OK, task.getResult()));
-                    } else {
-                        callbackContext.error(task.getException().getMessage());
+                .addOnCompleteListener(cordova.getActivity(), new OnCompleteListener<Boolean>() {
+                    @Override
+                    public void onComplete(Task<Boolean> task) {
+                        if (task.isSuccessful()) {
+                            callbackContext.sendPluginResult(
+                                    new PluginResult(PluginResult.Status.OK, task.getResult()));
+                        } else {
+                            callbackContext.error(task.getException().getMessage());
+                        }
                     }
-                }
-            });
+                });
     }
 
     @CordovaMethod
     protected void fetchAndActivate(final CallbackContext callbackContext) {
         this.firebaseRemoteConfig.fetchAndActivate()
-            .addOnCompleteListener(cordova.getActivity(), new OnCompleteListener<Boolean>() {
-                @Override
-                public void onComplete(Task<Boolean> task) {
-                    if (task.isSuccessful()) {
-                        callbackContext.sendPluginResult(
-                            new PluginResult(PluginResult.Status.OK, task.getResult()));
-                    } else {
-                        callbackContext.error(task.getException().getMessage());
+                .addOnCompleteListener(cordova.getActivity(), new OnCompleteListener<Boolean>() {
+                    @Override
+                    public void onComplete(Task<Boolean> task) {
+                        if (task.isSuccessful()) {
+                            callbackContext.sendPluginResult(
+                                    new PluginResult(PluginResult.Status.OK, task.getResult()));
+                        } else {
+                            callbackContext.error(task.getException().getMessage());
+                        }
                     }
-                }
-            });
+                });
     }
 
     @CordovaMethod
     protected void getBoolean(String key, CallbackContext callbackContext) {
-        boolean value = getValue(key).asBoolean();
-
         callbackContext.sendPluginResult(
-            new PluginResult(PluginResult.Status.OK, value));
+                new PluginResult(PluginResult.Status.OK, getValue(key).asBoolean()));
     }
 
     @CordovaMethod
@@ -103,10 +100,8 @@ public class FirebaseConfigPlugin extends ReflectiveCordovaPlugin {
 
     @CordovaMethod
     protected void getNumber(String key, CallbackContext callbackContext) {
-        double value = getValue(key).asDouble();
-
         callbackContext.sendPluginResult(
-            new PluginResult(PluginResult.Status.OK, (float)value));
+                new PluginResult(PluginResult.Status.OK, (float)getValue(key).asDouble()));
     }
 
     @CordovaMethod

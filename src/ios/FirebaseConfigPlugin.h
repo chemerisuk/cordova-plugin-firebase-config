@@ -3,7 +3,9 @@
 
 @interface FirebaseConfigPlugin : CDVPlugin
 
-    - (void)update:(CDVInvokedUrlCommand*)command;
+    - (void)fetch:(CDVInvokedUrlCommand*)command;
+    - (void)activate:(CDVInvokedUrlCommand*)command;
+    - (void)fetchAndActivate:(CDVInvokedUrlCommand*)command;
     - (void)getString:(CDVInvokedUrlCommand*)command;
     - (void)getNumber:(CDVInvokedUrlCommand*)command;
     - (void)getBoolean:(CDVInvokedUrlCommand*)command;
