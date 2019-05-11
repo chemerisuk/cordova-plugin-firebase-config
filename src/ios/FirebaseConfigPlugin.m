@@ -18,25 +18,36 @@
     }
 }
 
-- (void)update:(CDVInvokedUrlCommand *)command {
-    NSNumber* ttlSeconds = [command argumentAtIndex:0];
+- (void)fetch:(CDVInvokedUrlCommand *)command {
+    NSNumber* ttlSeconds = [[command argumentAtIndex:0] longValue];
     long expirationDuration = [ttlSeconds longValue];
 
-    if (expirationDuration == 0) {
-        self.remoteConfig.configSettings = [[FIRRemoteConfigSettings alloc] initWithDeveloperModeEnabled:YES];
-    }
-
-    [self.remoteConfig fetchWithExpirationDuration:expirationDuration completionHandler:^(FIRRemoteConfigFetchStatus status, NSError *error) {
+    [self.remoteConfig fetchWithExpirationDuration:expirationDuration completionHandler:^(FIRRemoteConfigFetchStatus status, NSError *err) {
         CDVPluginResult *pluginResult = nil;
-
-        if (status == FIRRemoteConfigFetchStatusSuccess) {
-            [self.remoteConfig activateFetched];
-
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        if (err) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:err.localizedDescription];
         } else {
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:error.localizedDescription];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         }
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
 
+- (void)activate:(CDVInvokedUrlCommand *)command {
+    BOOL result = [self.remoteConfig activateFetched];
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:result];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void)fetchAndActivate:(CDVInvokedUrlCommand *)command {
+    [self.remoteConfig fetchWithCompletionHandler:^(FIRRemoteConfigFetchStatus status, NSError *err) {
+        CDVPluginResult *pluginResult = nil;
+        if (err) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:err.localizedDescription];
+        } else {
+            BOOL result = [self.remoteConfig activateFetched];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:result];
+        }
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }

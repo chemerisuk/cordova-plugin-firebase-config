@@ -8,9 +8,19 @@ function promiseParameter(type, key) {
 }
 
 module.exports = {
-    update: function(ttlSeconds) {
+    fetch: function(expirationDuration) {
         return new Promise(function(resolve, reject) {
-            exec(resolve, reject, PLUGIN_NAME, "update", [ttlSeconds || 0]);
+            exec(resolve, reject, PLUGIN_NAME, "fetch", [expirationDuration || 0]);
+        });
+    },
+    activate: function() {
+        return new Promise(function(resolve, reject) {
+            exec(resolve, reject, PLUGIN_NAME, "activate", []);
+        });
+    },
+    fetchAndActivate: function() {
+        return new Promise(function(resolve, reject) {
+            exec(resolve, reject, PLUGIN_NAME, "fetchAndActivate", []);
         });
     },
     getBoolean: function(key) {

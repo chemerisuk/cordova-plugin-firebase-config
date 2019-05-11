@@ -42,24 +42,45 @@ public class FirebaseConfigPlugin extends ReflectiveCordovaPlugin {
     }
 
     @CordovaMethod
-    protected void update(long ttlSeconds, final CallbackContext callbackContext) {
-        if (ttlSeconds == 0) {
-            // App should use developer mode to fetch values from the service
-            this.firebaseRemoteConfig.setConfigSettings(
-                new FirebaseRemoteConfigSettings.Builder()
-                    .setDeveloperModeEnabled(true)
-                    .build()
-            );
-        }
-
-        this.firebaseRemoteConfig.fetch(ttlSeconds)
+    protected void fetch(long expirationDuration, final CallbackContext callbackContext) {
+        this.firebaseRemoteConfig.fetch(expirationDuration)
             .addOnCompleteListener(cordova.getActivity(), new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(Task<Void> task) {
                     if (task.isSuccessful()) {
-                        firebaseRemoteConfig.activateFetched();
-
                         callbackContext.success();
+                    } else {
+                        callbackContext.error(task.getException().getMessage());
+                    }
+                }
+            });
+    }
+
+    @CordovaMethod
+    protected void activate(final CallbackContext callbackContext) {
+        this.firebaseRemoteConfig.activate()
+            .addOnCompleteListener(cordova.getActivity(), new OnCompleteListener<Boolean>() {
+                @Override
+                public void onComplete(Task<Boolean> task) {
+                    if (task.isSuccessful()) {
+                        callbackContext.sendPluginResult(
+                            new PluginResult(PluginResult.Status.OK, task.getResult()));
+                    } else {
+                        callbackContext.error(task.getException().getMessage());
+                    }
+                }
+            });
+    }
+
+    @CordovaMethod
+    protected void fetchAndActivate(final CallbackContext callbackContext) {
+        this.firebaseRemoteConfig.fetchAndActivate()
+            .addOnCompleteListener(cordova.getActivity(), new OnCompleteListener<Boolean>() {
+                @Override
+                public void onComplete(Task<Boolean> task) {
+                    if (task.isSuccessful()) {
+                        callbackContext.sendPluginResult(
+                            new PluginResult(PluginResult.Status.OK, task.getResult()));
                     } else {
                         callbackContext.error(task.getException().getMessage());
                     }
