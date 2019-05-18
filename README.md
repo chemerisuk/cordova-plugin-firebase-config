@@ -1,4 +1,4 @@
-# cordova-plugin-firebase-config<br>[![NPM version][npm-version]][npm-url] [![NPM downloads][npm-downloads]][npm-url]
+# cordova-plugin-firebase-config<br>[![NPM version][npm-version]][npm-url] [![NPM downloads][npm-downloads]][npm-url] [![Twitter][twitter-follow]][twitter-url]
 > Cordova plugin for [Firebase Remote Config](https://firebase.google.com/docs/remote-config/)
 
 ## Installation
@@ -102,3 +102,5 @@ cordova.plugins.firebase.config.getBytes("myByteArray").then(function(value) {
 [npm-url]: https://www.npmjs.com/package/cordova-plugin-firebase-config
 [npm-version]: https://img.shields.io/npm/v/cordova-plugin-firebase-config.svg
 [npm-downloads]: https://img.shields.io/npm/dm/cordova-plugin-firebase-config.svg
+[twitter-url]: https://twitter.com/chemerisuk
+[twitter-follow]: https://img.shields.io/twitter/follow/chemerisuk.svg?style=social&label=Follow%20me
