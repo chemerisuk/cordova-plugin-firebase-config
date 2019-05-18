@@ -1,5 +1,10 @@
-# cordova-plugin-firebase-config<br>[![NPM version][npm-version]][npm-url] [![NPM downloads][npm-downloads]][npm-url] [![Twitter][twitter-follow]][twitter-url]
-> Cordova plugin for [Firebase Remote Config](https://firebase.google.com/docs/remote-config/)
+# Cordova plugin for [Firebase Remote Config](https://firebase.google.com/docs/remote-config/)
+[![NPM version][npm-version]][npm-url] [![NPM downloads][npm-downloads]][npm-url] [![Twitter][twitter-follow]][twitter-url]
+
+* [Installation](#installation)
+* [Supported Platforms](#supported-platforms)
+* [Preferences](#preferences)
+* [Methods](#methods)
 
 ## Installation
 
