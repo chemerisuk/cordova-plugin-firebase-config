@@ -1,21 +1,31 @@
 # Cordova plugin for [Firebase Remote Config](https://firebase.google.com/docs/remote-config/)
+
 [![NPM version][npm-version]][npm-url] [![NPM downloads][npm-downloads]][npm-url] [![Twitter][twitter-follow]][twitter-url]
 
-* [Installation](#installation)
-* [Supported Platforms](#supported-platforms)
-* [Preferences](#preferences)
-* [Methods](#methods)
+| [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)][donate-url] | Your help is appreciated. Create a PR, submit a bug or just grab me :beer: |
+|-|-|
 
-## Installation
+## Index
 
-    cordova plugin add cordova-plugin-firebase-config --save
+<!-- MarkdownTOC levels="2" autolink="true" -->
 
-Use variable `FIREBASE_CONFIG_VERSION` to override dependency version on Android.
+- [Supported Platforms](#supported-platforms)
+- [Installation](#installation)
+- [Preferences](#preferences)
+- [Methods](#methods)
+
+<!-- /MarkdownTOC -->
 
 ## Supported Platforms
 
 - iOS
 - Android
+
+## Installation
+
+    $ cordova plugin add cordova-plugin-firebase-config --save
+
+Use variable `FIREBASE_CONFIG_VERSION` to override dependency version on Android.
 
 ## Preferences
 You can specify `FirebaseRemoteConfigDefaults` in `config.xml` to define filename of a file with default values.
@@ -109,3 +119,5 @@ cordova.plugins.firebase.config.getBytes("myByteArray").then(function(value) {
 [npm-downloads]: https://img.shields.io/npm/dm/cordova-plugin-firebase-config.svg
 [twitter-url]: https://twitter.com/chemerisuk
 [twitter-follow]: https://img.shields.io/twitter/follow/chemerisuk.svg?style=social&label=Follow%20me
+[donate-url]: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YYRKVZJSHLTNC&source=url
+
