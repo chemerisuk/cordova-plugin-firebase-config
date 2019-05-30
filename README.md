@@ -27,8 +27,6 @@
 
 Use variable `FIREBASE_CONFIG_VERSION` and `FIREBASE_CORE_VERSION` to override dependency version on Android.
 
-Use variable `POD_FIREBASE_VERSION` to override dependency version on iOS.
-
 ## Preferences
 You can specify `FirebaseRemoteConfigDefaults` in `config.xml` to define filename of a file with default values.
 
