@@ -33,19 +33,27 @@
 }
 
 - (void)activate:(CDVInvokedUrlCommand *)command {
-    BOOL result = [self.remoteConfig activateFetched];
-    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:result];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-}
-
-- (void)fetchAndActivate:(CDVInvokedUrlCommand *)command {
-    [self.remoteConfig fetchWithCompletionHandler:^(FIRRemoteConfigFetchStatus status, NSError *err) {
+    BOOL wasActivated = self.remoteConfig.lastFetchStatus == FIRRemoteConfigFetchAndActivateStatusSuccessFetchedFromRemote;
+    [self.remoteConfig activateWithCompletionHandler:^(NSError * _Nullable err) {
         CDVPluginResult *pluginResult = nil;
         if (err) {
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:err.localizedDescription];
         } else {
-            BOOL result = [self.remoteConfig activateFetched];
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:result];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:
+                            (!wasActivated && self.remoteConfig.lastFetchStatus == FIRRemoteConfigFetchAndActivateStatusSuccessFetchedFromRemote)];
+        }
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+- (void)fetchAndActivate:(CDVInvokedUrlCommand *)command {
+    [self.remoteConfig fetchAndActivateWithCompletionHandler:^(FIRRemoteConfigFetchAndActivateStatus status, NSError * _Nullable err) {
+        CDVPluginResult *pluginResult = nil;
+        if (err) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:err.localizedDescription];
+        } else {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:
+                            (status == FIRRemoteConfigFetchAndActivateStatusSuccessFetchedFromRemote)];
         }
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
