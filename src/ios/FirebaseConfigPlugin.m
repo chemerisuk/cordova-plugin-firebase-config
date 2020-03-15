@@ -6,10 +6,6 @@
 - (void)pluginInitialize {
     NSLog(@"Starting Firebase Remote Config plugin");
 
-    if(![FIRApp defaultApp]) {
-        [FIRApp configure];
-    }
-
     self.remoteConfig = [FIRRemoteConfig remoteConfig];
 
     NSString* plistFilename = [self.commandDelegate.settings objectForKey:[@"FirebaseRemoteConfigDefaults" lowercaseString]];
