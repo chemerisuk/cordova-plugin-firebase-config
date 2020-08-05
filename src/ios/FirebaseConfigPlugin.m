@@ -29,14 +29,12 @@
 }
 
 - (void)activate:(CDVInvokedUrlCommand *)command {
-    BOOL wasActivated = self.remoteConfig.lastFetchStatus == FIRRemoteConfigFetchAndActivateStatusSuccessFetchedFromRemote;
-    [self.remoteConfig activateWithCompletionHandler:^(NSError * _Nullable err) {
+    [self.remoteConfig activateWithCompletion:^(BOOL changed, NSError * _Nullable err) {
         CDVPluginResult *pluginResult = nil;
         if (err) {
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:err.localizedDescription];
         } else {
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:
-                            (!wasActivated && self.remoteConfig.lastFetchStatus == FIRRemoteConfigFetchAndActivateStatusSuccessFetchedFromRemote)];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:changed];
         }
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
