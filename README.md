@@ -25,7 +25,7 @@
 
     $ cordova plugin add cordova-plugin-firebase-config
 
-Use variable `FIREBASE_CONFIG_VERSION` and `FIREBASE_ANALYTICS_VERSION` to override dependency version on Android.
+Use variables `IOS_FIREBASE_CONFIG_VERSION` and `ANDROID_FIREBASE_CONFIG_VERSION` to override dependency versions for Firebase SDKs.
 
 ## Preferences
 You can specify `FirebaseRemoteConfigDefaults` in `config.xml` to define filename of a file with default values.

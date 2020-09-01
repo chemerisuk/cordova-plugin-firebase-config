@@ -20,9 +20,11 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         <engine name="cordova-ios" version=">=5.0.0"/>
     </engines>
 
-    <dependency id="cordova-plugin-firebase-analytics" version="~4.3.0"/>
+    <dependency id="cordova-plugin-firebase-analytics" version="~4.4.1"/>
 
     <platform name="ios">
+        <preference name="IOS_FIREBASE_CONFIG_VERSION" default="~> 6.31.0"/>
+
         <config-file target="config.xml" parent="/*">
             <feature name="FirebaseConfig">
                 <param name="ios-package" value="FirebaseConfigPlugin" />
@@ -37,13 +39,13 @@ xmlns:android="http://schemas.android.com/apk/res/android"
                 <source url="https://cdn.cocoapods.org/"/>
             </config>
             <pods>
-                <pod name="Firebase/RemoteConfig" spec="~> 6.23.0" />
+                <pod name="Firebase/RemoteConfig" spec="$IOS_FIREBASE_CONFIG_VERSION" />
             </pods>
         </podspec>
     </platform>
 
     <platform name="android">
-        <preference name="FIREBASE_CONFIG_VERSION" default="19.1.+"/>
+        <preference name="ANDROID_FIREBASE_CONFIG_VERSION" default="19.2.+"/>
 
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="FirebaseConfig">
@@ -54,7 +56,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         <dependency id="cordova-support-android-plugin" version="~1.0.0"/>
         <dependency id="cordova-support-google-services" version="^1.3.0"/>
 
-        <framework src="com.google.firebase:firebase-config:$FIREBASE_CONFIG_VERSION" />
+        <framework src="com.google.firebase:firebase-config:$ANDROID_FIREBASE_CONFIG_VERSION" />
 
         <source-file src="src/android/FirebaseConfigPlugin.java"
             target-dir="src/by/chemerisuk/cordova/firebase/" />
