@@ -45,7 +45,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
     </platform>
 
     <platform name="android">
-        <preference name="ANDROID_FIREBASE_CONFIG_VERSION" default="19.2.+"/>
+        <preference name="ANDROID_FIREBASE_CONFIG_VERSION" default="20.0.+"/>
 
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="FirebaseConfig">
