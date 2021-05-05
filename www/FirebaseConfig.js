@@ -23,6 +23,9 @@ module.exports = {
             exec(resolve, reject, PLUGIN_NAME, "fetchAndActivate", []);
         });
     },
+    getValueSource: function(key) {
+        return promiseParameter("ValueSource", key);
+    },
     getBoolean: function(key) {
         return promiseParameter("Boolean", key);
     },

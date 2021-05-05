@@ -85,6 +85,28 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+- (void)getValueSource:(CDVInvokedUrlCommand*)command {
+    FIRRemoteConfigValue *configValue = [self getConfigValue:command];
+
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+        messageAsString:convertFIRRemoteConfigSourceToNSString(configValue.source)];
+
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+NSString *convertFIRRemoteConfigSourceToNSString(FIRRemoteConfigSource value) {
+  switch (value) {
+    case FIRRemoteConfigSourceDefault:
+      return @"default";
+    case FIRRemoteConfigSourceRemote:
+      return @"remote";
+    case FIRRemoteConfigSourceStatic:
+      return @"static";
+    default:
+      return @"unknown";
+  }
+}
+
 - (FIRRemoteConfigValue*)getConfigValue:(CDVInvokedUrlCommand *)command {
     NSString* key = [command argumentAtIndex:0];
 
