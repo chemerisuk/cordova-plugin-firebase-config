@@ -114,6 +114,18 @@ cordova.plugins.firebase.config.getBytes("myByteArray").then(function(value) {
 });
 ```
 
+### getValueSource(_key_)
+Returns source of the value for the specified key. Possible values:
+- `"default"` - if the value was set as a default
+- `"remote"` - if the value was retrieved from the server
+- `"static"` - if no value was found and a static default value was returned instead
+
+```js
+cordova.plugins.firebase.config.getValueSource("myArbitraryValue").then(function(source) {
+    // use source
+});
+```
+
 [npm-url]: https://www.npmjs.com/package/cordova-plugin-firebase-config
 [npm-version]: https://img.shields.io/npm/v/cordova-plugin-firebase-config.svg
 [npm-downloads]: https://img.shields.io/npm/dm/cordova-plugin-firebase-config.svg

@@ -108,7 +108,7 @@ public class FirebaseConfigPlugin extends ReflectiveCordovaPlugin {
                 callbackContext.success("static");
                 break;
             default:
-                callbackContext.success("unknown");
+                callbackContext.error("Unknown source");
         }
     }
 

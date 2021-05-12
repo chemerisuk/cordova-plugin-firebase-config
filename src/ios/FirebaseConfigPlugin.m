@@ -87,9 +87,11 @@
 
 - (void)getValueSource:(CDVInvokedUrlCommand*)command {
     FIRRemoteConfigValue *configValue = [self getConfigValue:command];
+    NSString* sourceString = convertFIRRemoteConfigSourceToNSString(configValue.source);
 
-    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-        messageAsString:convertFIRRemoteConfigSourceToNSString(configValue.source)];
+    CDVPluginResult *pluginResult = sourceString == nil
+        ? [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Unknown source"]
+        : [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:sourceString];
 
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
@@ -103,7 +105,7 @@ NSString *convertFIRRemoteConfigSourceToNSString(FIRRemoteConfigSource value) {
     case FIRRemoteConfigSourceStatic:
       return @"static";
     default:
-      return @"unknown";
+      return nil;
   }
 }
 
