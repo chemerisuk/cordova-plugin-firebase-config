@@ -3,6 +3,10 @@
 
 @implementation FirebaseConfigPlugin
 
+static const int VALUE_SOURCE_STATIC = 0;
+static const int VALUE_SOURCE_DEFAULT = 1;
+static const int VALUE_SOURCE_REMOTE = 2;
+
 - (void)pluginInitialize {
     NSLog(@"Starting Firebase Remote Config plugin");
 
@@ -87,25 +91,24 @@
 
 - (void)getValueSource:(CDVInvokedUrlCommand*)command {
     FIRRemoteConfigValue *configValue = [self getConfigValue:command];
-    NSString* sourceString = convertFIRRemoteConfigSourceToNSString(configValue.source);
-
-    CDVPluginResult *pluginResult = sourceString == nil
-        ? [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Unknown source"]
-        : [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:sourceString];
+    
+    CDVPluginResult *pluginResult = [CDVPluginResult
+        resultWithStatus:CDVCommandStatus_OK
+        messageAsInt:convertFIRRemoteConfigSourceToPluginResult(configValue.source)];
 
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
-NSString *convertFIRRemoteConfigSourceToNSString(FIRRemoteConfigSource value) {
+int convertFIRRemoteConfigSourceToPluginResult(FIRRemoteConfigSource value) {
   switch (value) {
     case FIRRemoteConfigSourceDefault:
-      return @"default";
+      return VALUE_SOURCE_DEFAULT;
     case FIRRemoteConfigSourceRemote:
-      return @"remote";
+      return VALUE_SOURCE_REMOTE;
     case FIRRemoteConfigSourceStatic:
-      return @"static";
+      return VALUE_SOURCE_STATIC;
     default:
-      return nil;
+      return VALUE_SOURCE_STATIC;
   }
 }
 
