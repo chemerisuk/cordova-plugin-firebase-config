@@ -124,7 +124,7 @@ Returns source of the value for the specified key. Possible values:
 
 ```js
 cordova.plugins.firebase.config.getValueSource("myArbitraryValue").then(function(source) {
-    if (source === remoteConfig.VALUE_SOURCE_DEFAULT) {
+    if (source === cordova.plugins.firebase.config.VALUE_SOURCE_DEFAULT) {
         //...
     }
 });
