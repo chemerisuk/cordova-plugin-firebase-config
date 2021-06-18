@@ -95,6 +95,11 @@ public class FirebaseConfigPlugin extends ReflectiveCordovaPlugin {
         callbackContext.success(getValue(key).asString());
     }
 
+    @CordovaMethod
+    protected void getValueSource(String key, CallbackContext callbackContext) {
+        callbackContext.success(getValue(key).getSource());
+    }
+
     private FirebaseRemoteConfigValue getValue(String key) {
         return firebaseRemoteConfig.getValue(key);
     }

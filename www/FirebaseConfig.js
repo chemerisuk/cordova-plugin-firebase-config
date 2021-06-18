@@ -8,6 +8,10 @@ function promiseParameter(type, key) {
 }
 
 module.exports = {
+    VALUE_SOURCE_STATIC: 0,
+    VALUE_SOURCE_DEFAULT: 1,
+    VALUE_SOURCE_REMOTE: 2,
+
     fetch: function(expirationDuration) {
         return new Promise(function(resolve, reject) {
             exec(resolve, reject, PLUGIN_NAME, "fetch", [expirationDuration || 0]);
@@ -22,6 +26,9 @@ module.exports = {
         return new Promise(function(resolve, reject) {
             exec(resolve, reject, PLUGIN_NAME, "fetchAndActivate", []);
         });
+    },
+    getValueSource: function(key) {
+        return promiseParameter("ValueSource", key);
     },
     getBoolean: function(key) {
         return promiseParameter("Boolean", key);
