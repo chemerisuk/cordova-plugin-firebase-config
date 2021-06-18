@@ -118,9 +118,9 @@ cordova.plugins.firebase.config.getBytes("myByteArray").then(function(value) {
 Returns source of the value for the specified key. Possible values:
 | Constant | Value | Description |
 | :-- | :-- | :-- |
-| VALUE_SOURCE_STATIC | 0 | Indicates that the value returned is the static default value.
-| VALUE_SOURCE_DEFAULT | 1 | Indicates that the value returned was retrieved from the defaults set by the client.
-| VALUE_SOURCE_REMOTE | 2 | Indicates that the value returned was retrieved from the Firebase Remote Config Server.
+| VALUE_SOURCE_STATIC | 0 | Indicates that the value returned is the static default value. |
+| VALUE_SOURCE_DEFAULT | 1 | Indicates that the value returned was retrieved from the defaults set by the client. |
+| VALUE_SOURCE_REMOTE | 2 | Indicates that the value returned was retrieved from the Firebase Remote Config Server. |
 
 ```js
 cordova.plugins.firebase.config.getValueSource("myArbitraryValue").then(function(source) {
