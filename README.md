@@ -28,9 +28,23 @@
 Use variables `IOS_FIREBASE_CONFIG_VERSION` and `ANDROID_FIREBASE_CONFIG_VERSION` to override dependency versions for Firebase SDKs.
 
 ## Preferences
-You can specify `FirebaseRemoteConfigDefaults` in `config.xml` to define filename of a file with default values.
+You can specify `FirebaseRemoteConfigDefaults` in `config.xml` to define filename of a file with default values. Keep in mind that android and ios have different naming convensions there it's useful to specify different file names.
 
-On Android the file is located at `platforms/android/res/xml/${filename}.xml` and has a structure like below:
+```
+<platform name="android">
+    ...
+    <preference name="FirebaseRemoteConfigDefaults" value="remote_config_defaults" />
+    <resource-file src="resources/android/remote_config_defaults.xml" target="app/src/main/res/xml/remote_config_defaults.xml" />
+</platform>
+
+<platform name="ios">
+    ...
+    <preference name="FirebaseRemoteConfigDefaults" value="RemoteConfigDefaults" />
+    <resource-file src="resources/ios/RemoteConfigDefaults.plist" />
+</platform>
+```
+
+On Android platform file `remote_config_defaults.xml` has a structure like below:
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <defaultsMap>
@@ -45,7 +59,7 @@ On Android the file is located at `platforms/android/res/xml/${filename}.xml` an
 </defaultsMap>
 ```
 
-On iOS file the file is located at `platforms/ios/<Your App Name>/${filename}.plist` and has a structure like below:
+On iOS platform file `RemoteConfigDefaults.plist` has a structure like below:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
