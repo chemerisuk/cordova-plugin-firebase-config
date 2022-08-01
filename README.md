@@ -247,7 +247,7 @@ ___
 
 ### getBytes
 
-**getBytes**(`key`): `Promise`<`number`\>
+**getBytes**(`key`): `Promise`<`ArrayBuffer`\>
 
 Returns the bytes parameter value for the given key
 
@@ -267,7 +267,7 @@ cordova.plugins.firebase.config.getBytes("myByteArray").then(function(value) {
 
 #### Returns
 
-`Promise`<`number`\>
+`Promise`<`ArrayBuffer`\>
 
 Fulfills promise with parameter value
 
