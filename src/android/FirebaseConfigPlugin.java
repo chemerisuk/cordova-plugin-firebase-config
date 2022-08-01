@@ -1,5 +1,7 @@
 package by.chemerisuk.cordova.firebase;
 
+import static com.google.android.gms.tasks.Tasks.await;
+
 import java.util.Collections;
 
 import android.content.Context;
@@ -12,7 +14,9 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigValue;
 
 import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaArgs;
 import org.apache.cordova.PluginResult;
+import org.json.JSONException;
 
 
 public class FirebaseConfigPlugin extends ReflectiveCordovaPlugin {
@@ -39,64 +43,53 @@ public class FirebaseConfigPlugin extends ReflectiveCordovaPlugin {
     }
 
     @CordovaMethod
-    protected void fetch(long expirationDuration, final CallbackContext callbackContext) {
-        firebaseRemoteConfig.fetch(expirationDuration).addOnCompleteListener(cordova.getActivity(), task -> {
-            if (task.isSuccessful()) {
-                callbackContext.success();
-            } else {
-                callbackContext.error(task.getException().getMessage());
-            }
-        });
+    protected void fetch(CordovaArgs args, CallbackContext callbackContext) throws Exception {
+        long expirationDuration = args.getLong(0);
+        await(firebaseRemoteConfig.fetch(expirationDuration));
+        callbackContext.success();
     }
 
     @CordovaMethod
-    protected void activate(final CallbackContext callbackContext) {
-        firebaseRemoteConfig.activate().addOnCompleteListener(cordova.getActivity(), task -> {
-            if (task.isSuccessful()) {
-                callbackContext.sendPluginResult(
-                        new PluginResult(PluginResult.Status.OK, task.getResult()));
-            } else {
-                callbackContext.error(task.getException().getMessage());
-            }
-        });
+    protected void activate(CallbackContext callbackContext) throws Exception {
+        boolean activated = await(firebaseRemoteConfig.activate());
+        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, activated));
     }
 
     @CordovaMethod
-    protected void fetchAndActivate(final CallbackContext callbackContext) {
-        firebaseRemoteConfig.fetchAndActivate().addOnCompleteListener(cordova.getActivity(), task -> {
-            if (task.isSuccessful()) {
-                callbackContext.sendPluginResult(
-                        new PluginResult(PluginResult.Status.OK, task.getResult()));
-            } else {
-                callbackContext.error(task.getException().getMessage());
-            }
-        });
+    protected void fetchAndActivate(CallbackContext callbackContext) throws Exception {
+        boolean activated = await(firebaseRemoteConfig.fetchAndActivate());
+        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, activated));
     }
 
     @CordovaMethod
-    protected void getBoolean(String key, CallbackContext callbackContext) {
+    protected void getBoolean(CordovaArgs args, CallbackContext callbackContext) throws JSONException {
+        String key = args.getString(0);
         callbackContext.sendPluginResult(
                 new PluginResult(PluginResult.Status.OK, getValue(key).asBoolean()));
     }
 
     @CordovaMethod
-    protected void getBytes(String key, CallbackContext callbackContext) {
+    protected void getBytes(CordovaArgs args, CallbackContext callbackContext) throws JSONException {
+        String key = args.getString(0);
         callbackContext.success(getValue(key).asByteArray());
     }
 
     @CordovaMethod
-    protected void getNumber(String key, CallbackContext callbackContext) {
+    protected void getNumber(CordovaArgs args, CallbackContext callbackContext) throws JSONException {
+        String key = args.getString(0);
         callbackContext.sendPluginResult(
                 new PluginResult(PluginResult.Status.OK, (float)getValue(key).asDouble()));
     }
 
     @CordovaMethod
-    protected void getString(String key, CallbackContext callbackContext) {
+    protected void getString(CordovaArgs args, CallbackContext callbackContext) throws JSONException {
+        String key = args.getString(0);
         callbackContext.success(getValue(key).asString());
     }
 
     @CordovaMethod
-    protected void getValueSource(String key, CallbackContext callbackContext) {
+    protected void getValueSource(CordovaArgs args, CallbackContext callbackContext) throws JSONException {
+        String key = args.getString(0);
         callbackContext.success(getValue(key).getSource());
     }
 

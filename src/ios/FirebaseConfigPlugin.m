@@ -1,5 +1,5 @@
 #import "FirebaseConfigPlugin.h"
-@import Firebase;
+@import FirebaseCore;
 
 @implementation FirebaseConfigPlugin
 
@@ -10,8 +10,11 @@ static const int VALUE_SOURCE_REMOTE = 2;
 - (void)pluginInitialize {
     NSLog(@"Starting Firebase Remote Config plugin");
 
-    self.remoteConfig = [FIRRemoteConfig remoteConfig];
+    if (![FIRApp defaultApp]) {
+        [FIRApp configure];
+    }
 
+    self.remoteConfig = [FIRRemoteConfig remoteConfig];
     NSString* plistFilename = [self.commandDelegate.settings objectForKey:[@"FirebaseRemoteConfigDefaults" lowercaseString]];
     if (plistFilename) {
         [self.remoteConfig setDefaultsFromPlistFileName:plistFilename];
