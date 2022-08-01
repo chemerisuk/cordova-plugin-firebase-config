@@ -15,12 +15,25 @@
 
 ## Index
 
-<!-- MarkdownTOC levels="2" autolink="true" -->
+<!-- MarkdownTOC levels="2,3" autolink="true" -->
 
 - [Supported Platforms](#supported-platforms)
 - [Installation](#installation)
+    - [Adding required configuration files](#adding-required-configuration-files)
 - [Preferences](#preferences)
-- [Methods](#methods)
+- [Variables](#variables)
+    - [VALUE\_SOURCE\_DEFAULT](#value_source_default)
+    - [VALUE\_SOURCE\_REMOTE](#value_source_remote)
+    - [VALUE\_SOURCE\_STATIC](#value_source_static)
+- [Functions](#functions)
+    - [activate](#activate)
+    - [fetch](#fetch)
+    - [fetchAndActivate](#fetchandactivate)
+    - [getBoolean](#getboolean)
+    - [getBytes](#getbytes)
+    - [getNumber](#getnumber)
+    - [getString](#getstring)
+    - [getValueSource](#getvaluesource)
 
 <!-- /MarkdownTOC -->
 
@@ -106,73 +119,240 @@ On iOS platform file `RemoteConfigDefaults.plist` has a structure like below:
 
 <!-- TypedocGenerated -->
 
-## Methods
-Every method call returns a promise which is optionally fulfilled with an appropriate value.
+## Variables
 
-### fetch(_expirationDuration_)
-Starts fetching configs, adhering to the specified minimum fetch interval.
-```js
-cordova.plugins.firebase.config.fetch(8 * 3600).then(function() {
-    // your config was fetched
-});
-```
+### VALUE\_SOURCE\_DEFAULT
 
-### activate()
+ **VALUE\_SOURCE\_DEFAULT**: `number`
+
+Indicates that the value returned was retrieved from the defaults set by the client.
+
+**`Constant`**
+
+___
+
+### VALUE\_SOURCE\_REMOTE
+
+ **VALUE\_SOURCE\_REMOTE**: `number`
+
+Indicates that the value returned was retrieved from the Firebase Remote Config Server.
+
+**`Constant`**
+
+___
+
+### VALUE\_SOURCE\_STATIC
+
+ **VALUE\_SOURCE\_STATIC**: `number`
+
+Indicates that the value returned is the static default value.
+
+**`Constant`**
+
+## Functions
+
+### activate
+
+**activate**(): `Promise`<`boolean`\>
+
 Asynchronously activates the most recently fetched configs, so that the fetched key value pairs take effect.
-```js
-cordova.plugins.firebase.config.activate().then(function() {
-    // your config was activated
-});
+
+**`Example`**
+
+```ts
+cordova.plugins.firebase.config.activate();
 ```
 
-### fetchAndActivate()
+#### Returns
+
+`Promise`<`boolean`\>
+
+Fulfills promise with flag if current config was activated
+
+___
+
+### fetch
+
+**fetch**(`expirationDuration`): `Promise`<`void`\>
+
+Starts fetching configs, adhering to the specified minimum fetch interval.
+
+**`Example`**
+
+```ts
+cordova.plugins.firebase.config.fetch(8 * 3600);
+```
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `expirationDuration` | `number` | Minimum fetch interval in seconds |
+
+#### Returns
+
+`Promise`<`void`\>
+
+Callback when operation is completed
+
+___
+
+### fetchAndActivate
+
+**fetchAndActivate**(): `Promise`<`boolean`\>
+
 Asynchronously fetches and then activates the fetched configs.
-```js
-cordova.plugins.firebase.config.fetchAndActivate().then(function() {
-    // your config was fetched and activated
-});
+
+**`Example`**
+
+```ts
+cordova.plugins.firebase.config.fetchAndActivate();
 ```
 
-### getBoolean(_key_)
-```js
+#### Returns
+
+`Promise`<`boolean`\>
+
+Fulfills promise with flag if current config was activated
+
+___
+
+### getBoolean
+
+**getBoolean**(`key`): `Promise`<`boolean`\>
+
+Returns the boolean parameter value for the given key
+
+**`Example`**
+
+```ts
 cordova.plugins.firebase.config.getBoolean("myBool").then(function(value) {
     // use value from remote config
 });
 ```
 
-### getString(_key_)
-```js
-cordova.plugins.firebase.config.getString("myStr").then(function(value) {
-    // use value from remote config
-});
-```
+#### Parameters
 
-### getNumber(_key_)
-```js
-cordova.plugins.firebase.config.getNumber("myNumber").then(function(value) {
-    // use value from remote config
-});
-```
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `key` | `string` | Parameter key |
 
-### getBytes(_key_)
-```js
+#### Returns
+
+`Promise`<`boolean`\>
+
+Fulfills promise with parameter value
+
+___
+
+### getBytes
+
+**getBytes**(`key`): `Promise`<`number`\>
+
+Returns the bytes parameter value for the given key
+
+**`Example`**
+
+```ts
 cordova.plugins.firebase.config.getBytes("myByteArray").then(function(value) {
     // use value from remote config
 });
 ```
 
-### getValueSource(_key_)
-Returns source of the value for the specified key. Possible values:
-| Constant | Value | Description |
-| :-- | :-- | :-- |
-| VALUE_SOURCE_STATIC | 0 | Indicates that the value returned is the static default value. |
-| VALUE_SOURCE_DEFAULT | 1 | Indicates that the value returned was retrieved from the defaults set by the client. |
-| VALUE_SOURCE_REMOTE | 2 | Indicates that the value returned was retrieved from the Firebase Remote Config Server. |
+#### Parameters
 
-```js
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `key` | `string` | Parameter key |
+
+#### Returns
+
+`Promise`<`number`\>
+
+Fulfills promise with parameter value
+
+___
+
+### getNumber
+
+**getNumber**(`key`): `Promise`<`number`\>
+
+Returns the number parameter value for the given key
+
+**`Example`**
+
+```ts
+cordova.plugins.firebase.config.getNumber("myNumber").then(function(value) {
+    // use value from remote config
+});
+```
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `key` | `string` | Parameter key |
+
+#### Returns
+
+`Promise`<`number`\>
+
+Fulfills promise with parameter value
+
+___
+
+### getString
+
+**getString**(`key`): `Promise`<`string`\>
+
+Returns the string parameter value for the given key
+
+**`Example`**
+
+```ts
+cordova.plugins.firebase.config.getString("myStr").then(function(value) {
+    // use value from remote config
+});
+```
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `key` | `string` | Parameter key |
+
+#### Returns
+
+`Promise`<`string`\>
+
+Fulfills promise with parameter value
+
+___
+
+### getValueSource
+
+**getValueSource**(`key`): `Promise`<`number`\>
+
+Returns source of the value for the specified key.
+
+**`Example`**
+
+```ts
 cordova.plugins.firebase.config.getValueSource("myArbitraryValue").then(function(source) {
     if (source === cordova.plugins.firebase.config.VALUE_SOURCE_DEFAULT) {
-        //...
+        // ...
     }
 });
 ```
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `key` | `string` | Parameter key |
+
+#### Returns
+
+`Promise`<`number`\>
+
+Fulfills promise with parameter value
