@@ -66,14 +66,14 @@ export function getNumber(key: string): Promise<number>;
  *
  * Returns the bytes parameter value for the given key
  * @param {string} key Parameter key
- * @returns {Promise<number>} Fulfills promise with parameter value
+ * @returns {Promise<ArrayBuffer>} Fulfills promise with parameter value
  *
  * @example
  * cordova.plugins.firebase.config.getBytes("myByteArray").then(function(value) {
  *     // use value from remote config
  * });
  */
-export function getBytes(key: string): Promise<number>;
+export function getBytes(key: string): Promise<ArrayBuffer>;
 /**
  *
  * Returns source of the value for the specified key.
