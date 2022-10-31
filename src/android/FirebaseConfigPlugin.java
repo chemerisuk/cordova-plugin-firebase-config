@@ -1,6 +1,7 @@
 package by.chemerisuk.cordova.firebase;
 
 import static com.google.android.gms.tasks.Tasks.await;
+import static by.chemerisuk.cordova.support.ExecutionThread.WORKER;
 
 import java.util.Collections;
 
@@ -42,20 +43,20 @@ public class FirebaseConfigPlugin extends ReflectiveCordovaPlugin {
         }
     }
 
-    @CordovaMethod
+    @CordovaMethod(WORKER)
     protected void fetch(CordovaArgs args, CallbackContext callbackContext) throws Exception {
         long expirationDuration = args.getLong(0);
         await(firebaseRemoteConfig.fetch(expirationDuration));
         callbackContext.success();
     }
 
-    @CordovaMethod
+    @CordovaMethod(WORKER)
     protected void activate(CallbackContext callbackContext) throws Exception {
         boolean activated = await(firebaseRemoteConfig.activate());
         callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, activated));
     }
 
-    @CordovaMethod
+    @CordovaMethod(WORKER)
     protected void fetchAndActivate(CallbackContext callbackContext) throws Exception {
         boolean activated = await(firebaseRemoteConfig.fetchAndActivate());
         callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, activated));
